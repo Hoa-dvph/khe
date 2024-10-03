@@ -1,68 +1,113 @@
 import React from 'react';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import IconButton from '@mui/material/IconButton';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import Button from '@mui/material/Button';
+import Avatar from '@mui/material/Avatar';
 import { FaCaretDown } from 'react-icons/fa'; 
 import VectorLogo from '../../assets/images/Vector.svg';
 import VectorNotifications from '../../assets/images/Notifications.svg';
 import VectorAdobe from '../../assets/images/Adobe.svg';
+import { Link } from 'react-router-dom';
 
-const Header = () => {
+const Header: React.FC = () => {
+  const [exploreMenuAnchorEl, setExploreMenuAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [hireMenuAnchorEl, setHireMenuAnchorEl] = React.useState<null | HTMLElement>(null);
+
+  // Handle Explore Menu
+  const handleExploreMenuClick = (event: React.MouseEvent<HTMLElement>) => {
+    setExploreMenuAnchorEl(event.currentTarget);
+  };
+
+  const handleExploreMenuClose = () => {
+    setExploreMenuAnchorEl(null);
+  };
+
+  // Handle Hire Freelancers Menu
+  const handleHireMenuClick = (event: React.MouseEvent<HTMLElement>) => {
+    setHireMenuAnchorEl(event.currentTarget);
+  };
+
+  const handleHireMenuClose = () => {
+    setHireMenuAnchorEl(null);
+  };
+
   return (
-    <div className="container mx-auto px-4 py-6">
-      <div className="header flex items-center justify-between bg-white p-4 shadow-md">
+    <AppBar position="fixed" color="default" sx={{ boxShadow: 1 }}>
+      <Toolbar>
         {/* Logo */}
-        <div className="logo flex-shrink-0 mr-8">
-          <img src={VectorLogo} alt="VNxLabs Logo" className="w-32 h-auto" />
-        </div>
+        <IconButton edge="start" color="inherit" aria-label="logo" sx={{ mr: 2 }}>
+          <img src={VectorLogo} alt="VNxLabs Logo" style={{ width: 128, height: 'auto' }} />
+        </IconButton>
 
         {/* Navigation Bar */}
-        <div className="nav-bar flex-grow">
-          <ul className="flex space-x-6">
-            <li className="relative group">
-              <a href="#" className="flex items-center text-gray-800 hover:text-blue-600">
-                Explore <span className="ml-2"><FaCaretDown /></span>
-              </a>
-              <ul className="absolute left-0 mt-2 hidden w-48 bg-white border border-gray-200 shadow-lg submenu group-hover:block">
-                <li><a href="#" className="block px-4 py-2 text-gray-800 hover:bg-gray-100">Option 1</a></li>
-                <li><a href="#" className="block px-4 py-2 text-gray-800 hover:bg-gray-100">Option 2</a></li>
-                <li><a href="#" className="block px-4 py-2 text-gray-800 hover:bg-gray-100">Option 3</a></li>
-              </ul>
-            </li>
-            <li><a href="#" className="text-gray-800 hover:text-blue-600">Asset</a></li>
-            <li><a href="#" className="text-gray-800 hover:text-blue-600">Jobs</a></li>
-            <li><a href="#" className="text-gray-800 hover:text-blue-600">Behance <span className="bg-blue-600 text-white text-xs px-2 py-1 rounded ml-1">Pro</span></a></li>
-            <li className="relative group">
-              <a href="#" className="flex items-center text-gray-800 hover:text-blue-600">
-                Hire Freelancers <span className="ml-2"><FaCaretDown /></span>
-              </a>
-              <ul className="absolute left-0 mt-2 hidden w-48 bg-white border border-gray-200 shadow-lg submenu group-hover:block">
-                <li><a href="#" className="block px-4 py-2 text-gray-800 hover:bg-gray-100">Freelancer 1</a></li>
-                <li><a href="#" className="block px-4 py-2 text-gray-800 hover:bg-gray-100">Freelancer 2</a></li>
-                <li><a href="#" className="block px-4 py-2 text-gray-800 hover:bg-gray-100">Freelancer 3</a></li>
-              </ul>
-            </li>
-          </ul>
-        </div>
+        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          {/* Explore Menu */}
+          <Button
+            onClick={handleExploreMenuClick}
+            endIcon={<FaCaretDown />}
+            sx={{ color: 'text.primary' }}
+          >
+            Explore
+          </Button>
+          <Menu
+            anchorEl={exploreMenuAnchorEl}
+            open={Boolean(exploreMenuAnchorEl)}
+            onClose={handleExploreMenuClose}
+          >
+            <MenuItem onClick={handleExploreMenuClose}>Option 1</MenuItem>
+            <MenuItem onClick={handleExploreMenuClose}>Option 2</MenuItem>
+            <MenuItem onClick={handleExploreMenuClose}>Option 3</MenuItem>
+          </Menu>
+
+          {/* Other navigation links */}
+          <Button sx={{ color: 'text.primary' }}>Assets</Button>
+          <Button sx={{ color: 'text.primary' }}>Jobs</Button>
+          <Button sx={{ color: 'text.primary' }}>
+            Behance <span style={{ marginLeft: 8, backgroundColor: '#1E88E5', color: '#FFF', padding: '2px 6px', borderRadius: 4, fontSize: '0.75rem' }}>Pro</span>
+          </Button>
+
+          {/* Hire Freelancers Menu */}
+          <Button
+            onClick={handleHireMenuClick}
+            endIcon={<FaCaretDown />}
+            sx={{ color: 'text.primary' }}
+          >
+            Hire Freelancers
+          </Button>
+          <Menu
+            anchorEl={hireMenuAnchorEl}
+            open={Boolean(hireMenuAnchorEl)}
+            onClose={handleHireMenuClose}
+          >
+            <MenuItem onClick={handleHireMenuClose}>Freelancer 1</MenuItem>
+            <MenuItem onClick={handleHireMenuClose}>Freelancer 2</MenuItem>
+            <MenuItem onClick={handleHireMenuClose}>Freelancer 3</MenuItem>
+          </Menu>
+        </Typography>
 
         {/* Notifications */}
-        <div className="notifications flex-shrink-0 mr-4">
-          <img src={VectorNotifications} alt="Notifications" className="w-4 h-auto" />
-        </div>
+        <IconButton edge="end" color="inherit" sx={{ mr: 2 }}>
+          <img src={VectorNotifications} alt="Notifications" style={{ width: 24, height: 'auto' }} />
+        </IconButton>
 
         {/* Sign In / Sign Up */}
-        <div className="flex items-center space-x-4">
-          <div className="sign-in cursor-pointer border border-gray-300 rounded-full px-4 py-2 text-gray-800 hover:bg-gray-100 hover:text-blue-600">
-            <p>Sign In</p>
-          </div>
-          <div className="sign-up cursor-pointer bg-blue-600 text-white rounded-full px-4 py-2 hover:bg-blue-700">
-            <p>Sign Up</p>
-          </div>
-        </div>
+        <Link to="/login" style={{ textDecoration: 'none' }}>
+          <Button variant="outlined" sx={{ mr: 2 }}>Sign In</Button>
+        </Link>
+        <Link to="/regist" style={{ textDecoration: 'none' }}>
+          <Button variant="contained" color="primary">Sign Up</Button>
+        </Link>
 
         {/* Adobe */}
-        <div className="adobe flex-shrink-0 mr-4 ml-4">
-          <img src={VectorAdobe} alt="Adobe" className="w-18 h-auto" />
-        </div>
-      </div>
-    </div>
+        <IconButton edge="end" color="inherit" sx={{ ml: 2 }}>
+          <img src={VectorAdobe} alt="Adobe" style={{ width: 72, height: 'auto' }} />
+        </IconButton>
+      </Toolbar>
+    </AppBar>
   );
 };
 

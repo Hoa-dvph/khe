@@ -17,7 +17,7 @@ const ProductDetailPage = () => {
     "https://picsum.photos/200",
   ];
   return (
-    <div className="px-[100px] relative mt-10 mb-4">
+    <div className="px-[100px] relative mt-20 mb-4">
       <div className="flex flex-col">
         <div className="flex gap-3">
           <img

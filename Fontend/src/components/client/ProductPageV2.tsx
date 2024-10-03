@@ -3,7 +3,6 @@ import React from 'react'
 const Product = () => {
   return (
 <div className="items mb-6 relative group">
-  {/* Ảnh */}
   <div className="items-img bg-gray-200 h-48 rounded-lg overflow-hidden relative">
     <img src="./assets/images/image.png"  className="object-cover w-full h-full" />
 

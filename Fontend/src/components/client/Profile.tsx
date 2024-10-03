@@ -4,7 +4,6 @@ import VectorAvatar from '../../assets/images/avata.png';
 
 const Profile = () => {
   const handleLogout = () => {
-    // Logic xử lý logout
     console.log("User logged out");
   };
 

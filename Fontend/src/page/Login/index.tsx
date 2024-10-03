@@ -29,7 +29,7 @@ const Login = () => {
             <h2 className="text-2xl font-bold mb-4">Sign in</h2>
             <p className="text-gray-600 mb-4">
               New user?{" "}
-              <a href="/create-account" className="text-blue-500">
+              <a href="/register" className="text-blue-500">
                 Create an account
               </a>
             </p>
