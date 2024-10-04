@@ -1,5 +1,30 @@
 import Post from '../models/posts.js';
 
+// Lấy tất cả bài viết 
+export const getAllPosts = async (req, res) => {
+    try {
+        const posts = await Post.find(); 
+        res.status(200).json(posts);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+// Lấy một bài viết theo ID
+export const getPostById = async (req, res) => {
+    try {
+        const post = await Post.findById(req.params.id); // Lấy bài viết theo ID
+
+        if (!post) {
+            return res.status(404).json({ message: "Post not found" });
+        }
+
+        res.status(200).json(post); // Trả về bài viết
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
 // Tạo bài viết mới
 export const createPost = async (req, res) => {
     try {
