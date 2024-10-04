@@ -3,19 +3,13 @@ import { createContact, getAllContacts, getContactById, updateContactById, delet
 
 const router = express.Router();
 
-// Tạo một liên hệ mới
-router.post('/', createContact);
+router.post('/contacts', createContact);
 
-// Lấy tất cả các liên hệ
-router.get('/', getAllContacts);
+router.get('/contacts', getAllContacts);
 
-// Lấy một liên hệ theo ID
-router.get('/:id', getContactById);
+router.get('/contacts/:id', getContactById); 
 
-// Cập nhật một liên hệ theo ID
-router.put('/:id', updateContactById);
+router.put('/contacts/:id/edit', updateContactById);  
 
-// Xóa một liên hệ theo ID
-router.delete('/:id', deleteContactById);
-
+router.delete('/contacts/:id/delete', deleteContactById);  
 export default router;
