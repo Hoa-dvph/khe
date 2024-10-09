@@ -1,5 +1,5 @@
 import { StatusCodes } from "http-status-codes";
-import Contact from "../models/contacts"; 
+import Contact from "../models/contacts.js"; 
 
 // Tạo một liên hệ mới
 export const createContact = async (req, res) => {
