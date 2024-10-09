@@ -3,11 +3,11 @@ import dotenv from "dotenv";
 import express from "express";
 import morgan from "morgan";
 
-import { connectDB } from "./config/db";
-import authRouter from "./routers/auth";
-import contactRouter from "./routers/contact";
-import postRouter from "./routers/post";
-import commentRouter from "./routers/comment";
+import { connectDB } from "./config/db.js";
+import authRouter from "./routers/auth.js";
+import contactRouter from "./routers/contact.js";
+import postRouter from "./routers/post.js";
+import commentRouter from "./routers/comment.js";
 
 const app = express();
 dotenv.config();

@@ -6,7 +6,7 @@ import {
     getAllAttributes,
     getAttributeById,
     updateAttribute,
-} from "../controllers/attribute";
+} from "../controllers/attribute.js";
 
 const router = Router();
 // Route để tạo mới một thuộc tính
