@@ -28,46 +28,43 @@ const postSchema = new mongoose.Schema({
         type: String,
         required: true,
         trim: true,
+        required: true,
     },
     content: {
         type: String,
         required: true,
         trim: true,
+        required: true,
     },
     author: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
         required: true,
-        trim: true,
-    },
-    avatar: {
-        type: String, 
-        trim: true,
     },
     tags: [{
         type: String,
         trim: true,
     }],
-    createdAt: {
-        type: Date,
-        default: Date.now,
-    },
-    updatedAt: {
-        type: Date,
-    },
     status: {
         type: String,
-        enum: ['draft', 'published', 'hidden'], 
+        enum: ['draft', 'published', 'hidden'],
         default: 'draft',
     },
-    views: {
+    images: [{
+        type: String,
+        trim: true,
+    }],
+    like_count: {
         type: Number,
         default: 0,
     },
-    image: {
-        type: String,  
-        trim: true,
-    },
-    comments: [commentSchema], 
+    like: {
+        type: Array,
+        default: [],
+    }
+}, {
+    timestamps: true,
+    versionKey: false,
     topic: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Topic',
