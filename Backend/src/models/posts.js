@@ -1,27 +1,5 @@
 import mongoose from 'mongoose';
 
-// Định nghĩa schema cho bình luận
-const commentSchema = new mongoose.Schema({
-    name: {
-        type: String,
-        required: true,
-        trim: true,
-    },
-    avatar: {
-        type: String, 
-        trim: true,
-    },
-    message: {
-        type: String,
-        required: true,
-        trim: true,
-    },
-    createdAt: {
-        type: Date,
-        default: Date.now,
-    },
-});
-
 // Định nghĩa schema cho bài viết
 const postSchema = new mongoose.Schema({
     title: {
@@ -40,21 +18,6 @@ const postSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: true,
-
-        id: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'User',
-            required: true,
-        },
-        name: {
-            type: String,
-            required: true,
-        }
-    },
-    avatar: {
-        type: String, 
-        trim: true,
-
     },
     tags: [{
         type: String,
@@ -76,15 +39,14 @@ const postSchema = new mongoose.Schema({
     like: {
         type: Array,
         default: [],
-    }
-}, {
-    timestamps: true,
-    versionKey: false,
-    topic: {
+    },topic: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Topic',
         required: true,
     },
+}, {
+    timestamps: true,
+    versionKey: false,
 });
 
 // Tạo model từ schema
