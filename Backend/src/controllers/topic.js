@@ -1,5 +1,5 @@
 import { StatusCodes } from "http-status-codes";
-import { Topic } from "../models/topic";
+import { Topic } from "../models/topic.js";
 
 export const createTopic = async (req, res) => {
     try {
@@ -50,11 +50,20 @@ export const updateTopic = async (req, res) => {
 export const deleteTopic = async (req, res) => {
     try {
         const { id } = req.params;
-        const deletedTopic = await Topic.findByIdAndDelete(id);
-        if (!deletedTopic) return res.status(StatusCodes.NOT_FOUND).json({ message: 'Topic not found' });
-        res.json({ message: 'Topic deleted successfully', deletedTopic });
+        const updatedTopic = await Topic.findByIdAndUpdate(
+            id,
+            { is_hidden: true },
+            { new: true }
+        );
+
+        if (!updatedTopic) {
+            return res.status(StatusCodes.NOT_FOUND).json({ message: 'Topic not found' });
+        }
+
+        res.json({ message: 'Topic hidden successfully', updatedTopic });
     } catch (error) {
         console.error(error);
-        res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: 'An error occurred while deleting the topic' });
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: 'An error occurred while hiding the topic' });
     }
-}
+};
+
