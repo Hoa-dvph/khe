@@ -7,7 +7,7 @@ const LayoutCLient = () => {
   return (
     <>
       <Header />
-      <div>
+      <div style={{ padding: '10px' }}>
         <Outlet />
       </div>
       <Footer />

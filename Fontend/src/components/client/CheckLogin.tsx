@@ -3,7 +3,7 @@ import { FaApple, FaFacebookF, FaGoogle } from 'react-icons/fa'; // Import icon 
 
 const CheckLogin = () => {
   return (
-    <div className="checklogin text-center mt-8">
+    <div className="checklogin text-center mt-2">
       <span className="block mb-4 text-gray-700">
         Sign up or <a href="#" className="underline text-blue-600 hover:text-blue-800">Sign In</a> to your
         account to view more work personalized to your preferences.
