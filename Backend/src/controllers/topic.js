@@ -38,7 +38,8 @@ export const getAllTopics = async (req, res) => {
 export const updateTopic = async (req, res) => {
     try {
         const { id } = req.params;
-        const updatedTopic = await Topic.findByIdAndUpdate(id, { new: true });
+        const { name } = req.body;
+        const updatedTopic = await Topic.findByIdAndUpdate(id, { name }, { new: true });
         if (!updatedTopic) return res.status(StatusCodes.NOT_FOUND).json({ message: 'Topic not found' });
         res.json({ message: 'Topic updated successfully', topic: updatedTopic });
     } catch (error) {

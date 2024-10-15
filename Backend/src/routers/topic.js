@@ -7,7 +7,7 @@ const router = express.Router();
 router.get('/topic/:id', checkAuth, checkAdmin, getIdTopic);
 router.post('/topic', checkAuth, checkAdmin, createTopic);
 router.get('/topic', getAllTopics);
-router.put('/topic', checkAuth, checkAdmin, updateTopic);
+router.put('/topic/:id', checkAuth, checkAdmin, updateTopic);
 router.delete('/topic/:id', checkAuth, checkAdmin, deleteTopic)
 
 
