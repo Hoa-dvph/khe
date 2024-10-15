@@ -1,18 +1,27 @@
-import React from 'react';
-import SettingsIcon from '@mui/icons-material/Settings';
-import VectorUpload from '../../assets/images/upload.svg'; // Adjust path to your image
+import React from "react";
+import SettingsIcon from "@mui/icons-material/Settings";
+import VectorUpload from "../../assets/images/upload.svg"; // Adjust path to your image
 
 interface ServiceProps {
   isSidebarOpen: boolean;
   onToggleSidebar: () => void;
 }
 
-const Service: React.FC<ServiceProps> = ({ isSidebarOpen, onToggleSidebar }) => {
+const Service: React.FC<ServiceProps> = ({
+  isSidebarOpen,
+  onToggleSidebar,
+}) => {
   return (
-    <div className={`service-container ${isSidebarOpen ? 'service-small' : 'service-normal mt-20'} flex items-center justify-between mb-5 mt-5`}>
-
+    <div
+      className={`service-container ${
+        isSidebarOpen ? "service-small" : "service-normal mt-20"
+      } flex items-center justify-between mb-5 mt-5`}
+    >
       {!isSidebarOpen && (
-        <button onClick={onToggleSidebar} className="btn flex items-center space-x-2">
+        <button
+          onClick={onToggleSidebar}
+          className="btn flex items-center space-x-2"
+        >
           <SettingsIcon className="w-5 h-5" />
           <span>Fillter</span>
         </button>
@@ -31,7 +40,10 @@ const Service: React.FC<ServiceProps> = ({ isSidebarOpen, onToggleSidebar }) => 
       </div>
 
       <button className="recommended flex items-center text-gray-800 hover:text-blue-600 cursor-pointer">
-        Recommended <span className="ml-2"><i className="fas fa-caret-down"></i></span>
+        Recommended{" "}
+        <span className="ml-2">
+          <i className="fas fa-caret-down"></i>
+        </span>
       </button>
     </div>
   );

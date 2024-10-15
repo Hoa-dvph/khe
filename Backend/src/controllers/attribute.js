@@ -1,4 +1,4 @@
-import Attribute, { ValueAttributeModel } from "../models/attribute";
+import Attribute, { ValueAttributeModel } from "../models/attribute.js";
 // Controller để tạo mới một thuộc tính
 export const createAttribute = async (req, res) => {
     try {

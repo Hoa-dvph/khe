@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import CheckLogin from "@/components/client/CheckLogin";
 import ProductPage from "@/components/client/ProductPage";
 import Service from "@/components/client/Service";
@@ -16,7 +16,7 @@ const HomePage: React.FC = () => {
   };
 
   return (
-    <div className={`homepage ${isSidebarOpen ? 'sidebar-open' : ''}`}>
+    <div className={`homepage ${isSidebarOpen ? "sidebar-open" : ""}`}>
       {/* Service component triggers the sidebar toggle */}
       <Service isSidebarOpen={isSidebarOpen} onToggleSidebar={toggleSidebar} />
 
@@ -24,8 +24,12 @@ const HomePage: React.FC = () => {
       <Sidebar isOpen={isSidebarOpen} onClose={closeSidebar} />
 
       {/* Main content with product grid */}
-      <div className={`main-content ${isSidebarOpen ? 'shifted' : ''}`}>
-        <div className={`grid ${isSidebarOpen ? 'grid-cols-3' : 'grid-cols-4'} gap-6`}>
+      <div className={`main-content ${isSidebarOpen ? "shifted" : ""}`}>
+        <div
+          className={`grid ${
+            isSidebarOpen ? "grid-cols-3" : "grid-cols-4"
+          } gap-6`}
+        >
           <ProductPage />
           <ProductPage />
           <ProductPage />

@@ -3,10 +3,11 @@ import dotenv from "dotenv";
 import express from "express";
 import morgan from "morgan";
 
-import { connectDB } from "./config/db";
-import authRouter from "./routers/auth";
-import contactRouter from "./routers/contact";
-import postRouter from "./routers/post";
+import { connectDB } from "./config/db.js";
+import authRouter from "./routers/auth.js";
+import contactRouter from "./routers/contact.js";
+import postRouter from "./routers/post.js";
+import commentRouter from "./routers/comment.js";
 
 const app = express();
 dotenv.config();
@@ -22,6 +23,7 @@ connectDB(process.env.DB_URI);
 app.use("/api", authRouter);
 app.use('/api', postRouter);
 app.use("/api", contactRouter);
+app.use("/api", commentRouter);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
@@ -29,3 +31,4 @@ app.listen(PORT, () => {
 });
 
 export const viteNodeApp = app;
+//

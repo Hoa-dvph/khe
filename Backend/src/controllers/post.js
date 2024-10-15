@@ -3,7 +3,7 @@ import Post from '../models/posts.js';
 // Lấy tất cả bài viết 
 export const getAllPosts = async (req, res) => {
     try {
-        const posts = await Post.find(); 
+        const posts = await Post.find();
         res.status(200).json(posts);
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -28,9 +28,9 @@ export const getPostById = async (req, res) => {
 // Tạo bài viết mới
 export const createPost = async (req, res) => {
     try {
-        const newPost = new Post(req.body); 
-        await newPost.save(); 
-        res.status(201).json(newPost); 
+        const newPost = new Post(req.body);
+        await newPost.save();
+        res.status(201).json(newPost);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -40,8 +40,8 @@ export const createPost = async (req, res) => {
 export const updatePost = async (req, res) => {
     try {
         const updatedPost = await Post.findByIdAndUpdate(req.params.id, req.body, {
-            new: true, 
-            runValidators: true, 
+            new: true,
+            runValidators: true,
         });
         if (!updatedPost) {
             return res.status(404).json({ message: "Post not found" });
@@ -70,18 +70,47 @@ export const addComment = async (req, res) => {
     const { name, avatar, message } = req.body;
 
     try {
-        const post = await Post.findById(req.params.id); 
+        const post = await Post.findById(req.params.id);
 
         if (!post) {
             return res.status(404).json({ message: "Post not found" });
         }
 
-        const newComment = { name, avatar, message }; 
-        post.comments.push(newComment); 
+        const newComment = { name, avatar, message };
+        post.comments.push(newComment);
 
-        await post.save(); 
-        res.status(201).json(post); 
+        await post.save();
+        res.status(201).json(post);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
 };
+// like status 
+export const likeStatus = async (req, res) => {
+    try {
+        const { user } = req.body
+        const post = await Post.findById(req.params.id);
+        if (!post) {
+            return res.status(404).json({ message: "Post not found" });
+        }
+        if (post.like.includes(user)) {
+            post.like = post.like.filter(userId => userId !== user);
+            post.like_count -= 1;
+        } else {
+            post.like.push(user);
+            post.like_count += 1;
+        }
+
+        await post.save();
+
+        res.status(200).json({
+            message: "Success",
+            like_count: post.like_count,
+            like: post.like,
+            post: post
+        });
+
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+}

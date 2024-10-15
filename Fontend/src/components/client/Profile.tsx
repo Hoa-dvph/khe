@@ -1,6 +1,6 @@
 import React from "react";
-import VectorArrowDown from '../../assets/images/Arrow down-circle.svg';
-import VectorAvatar from '../../assets/images/avata.png';
+import VectorArrowDown from "../../assets/images/Arrow down-circle.svg";
+import VectorAvatar from "../../assets/images/avata.png";
 
 const Profile = () => {
   const handleLogout = () => {
@@ -13,11 +13,7 @@ const Profile = () => {
       <section className="bg-gradient-to-r from-gray-600 to-gray-900 h-80 flex flex-col justify-center items-center text-white relative">
         <div className="flex flex-col items-center">
           <div className="w-20 h-20 border-2 border-white rounded-full flex justify-center items-center hover:bg-white hover:text-black transition duration-300">
-            <img
-              src={VectorArrowDown}
-              alt="Down Arrow"
-              className="w-8 h-8"
-            />
+            <img src={VectorArrowDown} alt="Down Arrow" className="w-8 h-8" />
           </div>
           <p className="mt-4 text-2xl font-semibold">Add a Banner Image</p>
         </div>

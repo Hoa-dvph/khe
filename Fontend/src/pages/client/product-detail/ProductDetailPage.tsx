@@ -1,4 +1,11 @@
-import { FaAngleLeft, FaAngleRight, FaFacebook, FaInstagram, FaSave, FaTwitter } from "react-icons/fa";
+import {
+  FaAngleLeft,
+  FaAngleRight,
+  FaFacebook,
+  FaInstagram,
+  FaSave,
+  FaTwitter,
+} from "react-icons/fa";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { A11y, Navigation, Pagination, Scrollbar } from "swiper/modules";
 // Import Swiper styles
@@ -8,6 +15,12 @@ import { Link } from "react-router-dom";
 import { MdOutlineMail } from "react-icons/md";
 import { IoShareOutline } from "react-icons/io5";
 import { AiFillLike } from "react-icons/ai";
+import Comment from "./Comment";
+import DetailPost from "./DetailPost";
+import { Tooltip } from "@mui/material";
+import { useState } from "react";
+import DialogCopy from "./DialogCopy";
+import { CiSaveDown2 } from "react-icons/ci";
 const ProductDetailPage = () => {
   const images = [
     "https://picsum.photos/200",
@@ -16,6 +29,15 @@ const ProductDetailPage = () => {
     "https://picsum.photos/200",
     "https://picsum.photos/200",
   ];
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
   return (
     <div className="px-[100px] relative mt-20 mb-4">
       <div className="flex flex-col">
@@ -172,6 +194,10 @@ const ProductDetailPage = () => {
             </button>
           </div>
         </div>
+        <div className="w-full grid grid-cols-6 px-[50px] py-[50px] border border-gray-200 gap-12">
+          <Comment />
+          <DetailPost />
+        </div>
       </div>
       <div className="fixed top-[60%] right-2 transform -translate-y-1/2 flex flex-col items-center space-y-4 gap-7  p-2 ">
         {/* Các icon */}
@@ -183,31 +209,43 @@ const ProductDetailPage = () => {
           />
           <h2 className="text-sm font-medium">Flow</h2>
         </Link>
-        <Link to={`/`} className="flex flex-col items-center">
-          <div className="bg-black text-white p-2 rounded-full">
-            <MdOutlineMail className="" size={25} />
+        <Tooltip title="Letter" placement="left-start" className="cursor-pointer">
+          <Link to={`/`} className="flex flex-col items-center">
+            <div className="bg-white text-black p-2 rounded-full border border-gray-200">
+              <MdOutlineMail className="" size={25} />
+            </div>
+            <h2 className="text-sm font-medium">Hire</h2>
+          </Link>
+        </Tooltip>
+        <Tooltip
+          title="Share"
+          placement="left-start"
+          onClick={handleClickOpen}
+          className="cursor-pointer"
+        >
+          <div className="flex flex-col items-center">
+            <div className="bg-white text-black p-2 rounded-full border border-gray-200">
+              <IoShareOutline className="" size={25} />
+            </div>
+            <h2 className="text-sm font-medium">Share</h2>
           </div>
-          <h2 className="text-sm font-medium">Hire</h2>
-        </Link>
-        <Link to={`/`} className="flex flex-col items-center">
-          <div className="bg-black text-white p-2 rounded-full">
-            <IoShareOutline className="" size={25} />
+        </Tooltip>
+        <Tooltip title="Save" placement="left-start" className="cursor-pointer">
+          <div className="flex flex-col items-center">
+            <div className="bg-white text-black p-2 rounded-full border border-gray-200">
+              <CiSaveDown2 className="" size={25} />
+            </div>
+            <h2 className="text-sm font-medium">Save</h2>
           </div>
-          <h2 className="text-sm font-medium">Share</h2>
-        </Link>
-        <Link to={`/`} className="flex flex-col items-center">
-          <div className="bg-black text-white p-2 rounded-full">
-            <FaSave className="" size={25} />
-          </div>
-          <h2 className="text-sm font-medium">Save</h2>
-        </Link>
-        <Link to={`/`} className="flex flex-col items-center">
-          <div className="bg-black text-white p-2 rounded-full">
+        </Tooltip>
+        <div className="flex flex-col items-center">
+          <div className="bg-blue-400 text-white p-2 rounded-full border border-gray-200">
             <AiFillLike className="" size={25} />
           </div>
           <h2 className="text-sm font-medium">Like</h2>
-        </Link>
+        </div>
       </div>
+      {open && <DialogCopy open={open} handleClose={handleClose} />}
     </div>
   );
 };
