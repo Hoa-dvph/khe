@@ -20,6 +20,10 @@ const signupSchema = Joi.object({
     "any.required": "Trường Confirm Password là bắt buộc",
     "any.only": "Mật khẩu không trùng khớp",
   }),
+  name: Joi.string().required().messages({
+    "any.required": "Trường Name là bắt buộc",
+    "string.empty": "Trường Name không được để trống",
+  }),
 });
 
 export const signup = async (req, res) => {
