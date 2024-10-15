@@ -127,7 +127,7 @@ const Header: React.FC = () => {
             Sign In
           </Button>
         </Link>
-        <Link to="/regist" style={{ textDecoration: "none" }}>
+        <Link to="/register" style={{ textDecoration: "none" }}>
           <Button variant="contained" color="primary">
             Sign Up
           </Button>

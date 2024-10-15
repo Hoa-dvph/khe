@@ -40,6 +40,21 @@ const postSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: true,
+
+        id: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User',
+            required: true,
+        },
+        name: {
+            type: String,
+            required: true,
+        }
+    },
+    avatar: {
+        type: String, 
+        trim: true,
+
     },
     tags: [{
         type: String,
