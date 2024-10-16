@@ -8,7 +8,7 @@ import authRouter from "./routers/auth.js";
 import contactRouter from "./routers/contact.js";
 import postRouter from "./routers/post.js";
 import commentRouter from "./routers/comment.js";
-
+import topicRouter from "./routers/topic.js";
 const app = express();
 dotenv.config();
 // middleware
@@ -24,6 +24,7 @@ app.use("/api", authRouter);
 app.use('/api', postRouter);
 app.use("/api", contactRouter);
 app.use("/api", commentRouter);
+app.use("/api", topicRouter)
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

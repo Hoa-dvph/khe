@@ -39,7 +39,8 @@ const postSchema = new mongoose.Schema({
     like: {
         type: Array,
         default: [],
-    },topic: {
+    },
+    topic: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Topic',
         required: true,
