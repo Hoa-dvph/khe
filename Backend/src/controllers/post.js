@@ -4,7 +4,10 @@ import User from '../models/user.js';
 // Lấy tất cả bài viết 
 export const getAllPosts = async (req, res) => {
     try {
-        const posts = await Post.find();
+        const posts = await Post.find()
+            .populate('author', 'name')
+            .populate('topic', 'name')
+            .sort({ createdAt: -1 });
         res.status(200).json(posts);
     } catch (error) {
         res.status(500).json({ message: error.message });
