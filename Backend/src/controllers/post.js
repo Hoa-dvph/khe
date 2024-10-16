@@ -1,5 +1,6 @@
+import { StatusCodes } from 'http-status-codes';
 import Post from '../models/posts.js';
-
+import User from '../models/user.js';
 // Lấy tất cả bài viết 
 export const getAllPosts = async (req, res) => {
     try {
@@ -112,5 +113,30 @@ export const likeStatus = async (req, res) => {
 
     } catch (error) {
         res.status(500).json({ message: error.message });
+    }
+}
+
+
+//sort post
+
+export const sortPosts = async (req, res) => {
+    try {
+        const { title, sortCreateAt, sortLikes } = req.body;
+        let filter = {}
+        if (title) {
+            filter.title = { $regex: title, $options: "i" };
+        }
+        let sort = {}
+        if (sortCreateAt) {
+            sort.createdAt = sortCreateAt === "createAtNew" ? -1 : 1
+        }
+        if (sortLikes) {
+            sort.like_count = sortLikes === "mostLike" ? -1 : 1
+        }
+        const posts = await Post.find(filter).sort(sort).populate("author");
+        res.status(StatusCodes.OK).json({ message: "Lấy thành công ", posts });
+
+    } catch (error) {
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: error.message });
     }
 }
