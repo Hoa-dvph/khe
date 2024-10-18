@@ -2,7 +2,7 @@ import React from "react";
 import CheckLogin from "@/components/client/CheckLogin";
 import ProductPage from "@/components/client/ProductPage";
 import Banner from "@/components/client/Banner";
-import ProductHomeSort from "@/components/client/ProductHomeSort";
+import ProductHomeSort from "@/page/sortPost/ProductHomeSort";
 import BannerV2 from "@/components/client/BannerV2";
 const HomePage: React.FC = () => {
   return (
