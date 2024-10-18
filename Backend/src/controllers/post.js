@@ -124,10 +124,13 @@ export const likeStatus = async (req, res) => {
 
 export const sortPosts = async (req, res) => {
     try {
-        const { title, sortCreateAt, sortLikes } = req.body;
+        const { title, sortCreateAt, sortLikes, topic } = req.body;
         let filter = {}
         if (title) {
             filter.title = { $regex: title, $options: "i" };
+        }
+        if (topic) {
+            filter.topic = topic;
         }
         let sort = {}
         if (sortCreateAt) {
@@ -136,10 +139,15 @@ export const sortPosts = async (req, res) => {
         if (sortLikes) {
             sort.like_count = sortLikes === "mostLike" ? -1 : 1
         }
-        const posts = await Post.find(filter).sort(sort).populate("author");
+        const posts = await Post.find(filter).sort(sort).populate({
+            path: 'author',
+            select: '-password'
+        });
         res.status(StatusCodes.OK).json({ message: "Lấy thành công ", posts });
 
     } catch (error) {
         res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: error.message });
     }
 }
+
+

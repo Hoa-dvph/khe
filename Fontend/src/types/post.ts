@@ -4,10 +4,10 @@ export interface IPostSort {
   sortLikes?: string;
 }
 
-interface Author {
+export interface Author {
   _id: string;
   email: string;
-  password: string;
+  // password: string;
   role: string;
   avatar: string;
   createdAt: string;
