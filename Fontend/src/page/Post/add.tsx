@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { FaPlus, FaTimes } from 'react-icons/fa';
-import { PhotoIcon } from '@heroicons/react/24/outline';
+import { XCircleIcon, PhotoIcon, ArrowLeftIcon } from '@heroicons/react/24/outline';
 
 const AddPost: React.FC = () => {
   const navigate = useNavigate();
@@ -134,7 +133,7 @@ const AddPost: React.FC = () => {
       });
       if (response.status === 201) {
         alert('Post added successfully!');
-        navigate('/posts');
+        navigate('/admin/posts');
       }
     } catch (error) {
       console.error('Error adding post:', error);
@@ -143,136 +142,137 @@ const AddPost: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-4xl mx-auto bg-white shadow-2xl rounded-3xl overflow-hidden">
-        <div className="bg-gradient-to-r from-blue-600 to-indigo-700 py-10 px-8">
-          <h1 className="text-4xl font-extrabold text-white text-center tracking-wide">Create New Post</h1>
-        </div>
-        <form onSubmit={handleSubmit} className="p-8 space-y-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="space-y-4">
-              <label htmlFor="title" className="block text-sm font-semibold text-gray-700">Title</label>
-              <input
-                type="text"
-                id="title"
-                name="title"
-                value={post.title}
-                onChange={handleChange}
-                required
-                className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200 ease-in-out"
-                placeholder="Enter post title"
-              />
+    <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-purple-100 py-0 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-4xl mx-auto">
+        <button
+          onClick={() => navigate('/admin/posts')}
+          className="mb-6 flex items-center text-indigo-600 hover:text-indigo-800 transition-colors duration-200"
+        >
+          <ArrowLeftIcon className="w-5 h-5 mr-2" />
+          Back to Posts
+        </button>
+        <div className="bg-white shadow-2xl rounded-3xl overflow-hidden">
+          <div className="bg-gradient-to-r from-indigo-600 to-purple-600 py-10 px-8">
+            <h1 className="text-4xl font-extrabold text-white text-center">Create New Post</h1>
+          </div>
+          <form onSubmit={handleSubmit} className="p-8 space-y-8">
+            <div className="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
+              <div className="sm:col-span-4">
+                <label htmlFor="title" className="block text-sm font-medium text-gray-700">Title</label>
+                <input
+                  type="text"
+                  id="title"
+                  name="title"
+                  value={post.title}
+                  onChange={handleChange}
+                  required
+                  className="mt-1 block w-full border border-gray-300 rounded-lg shadow-sm py-3 px-4 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                />
+              </div>
+              <div className="sm:col-span-2">
+                <label htmlFor="status" className="block text-sm font-medium text-gray-700">Status</label>
+                <select
+                  id="status"
+                  name="status"
+                  value={post.status}
+                  onChange={handleChange}
+                  className="mt-1 block w-full border border-gray-300 rounded-lg shadow-sm py-3 px-4 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                >
+                  <option value="draft">Draft</option>
+                  <option value="published">Published</option>
+                  <option value="hidden">Hidden</option>
+                </select>
+              </div>
             </div>
-            <div className="space-y-4">
-              <label htmlFor="topic" className="block text-sm font-semibold text-gray-700">Topic</label>
-              <select
-                id="topic"
-                name="topic"
-                value={post.topic}
+
+            <div>
+              <label htmlFor="content" className="block text-sm font-medium text-gray-700">Content</label>
+              <textarea
+                id="content"
+                name="content"
+                value={post.content}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200 ease-in-out"
-              >
-                <option value="">Select a topic</option>
-                {topics.map((topic) => (
-                  <option key={topic._id} value={topic._id}>
-                    {topic.name}
-                  </option>
+                rows={8}
+                className="mt-1 block w-full border border-gray-300 rounded-lg shadow-sm py-3 px-4 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              ></textarea>
+            </div>
+
+            <div className="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
+              <div className="sm:col-span-3">
+                <label htmlFor="tags" className="block text-sm font-medium text-gray-700">Tags (comma-separated)</label>
+                <input
+                  type="text"
+                  id="tags"
+                  name="tags"
+                  value={post.tags}
+                  onChange={handleChange}
+                  className="mt-1 block w-full border border-gray-300 rounded-lg shadow-sm py-3 px-4 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                />
+              </div>
+              <div className="sm:col-span-3">
+                <label htmlFor="topic" className="block text-sm font-medium text-gray-700">Topic</label>
+                <select
+                  id="topic"
+                  name="topic"
+                  value={post.topic}
+                  onChange={handleChange}
+                  required
+                  className="mt-1 block w-full border border-gray-300 rounded-lg shadow-sm py-3 px-4 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                >
+                  <option value="">Select a topic</option>
+                  {topics.map((topic) => (
+                    <option key={topic._id} value={topic._id}>
+                      {topic.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Images</label>
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                {selectedImages.map((imageUrl, index) => (
+                  <div key={index} className="relative group">
+                    <img src={imageUrl} alt={`Selected ${index + 1}`} className="w-full h-32 object-cover rounded-lg shadow-md transition-transform duration-200 transform group-hover:scale-105" />
+                    <button
+                      type="button"
+                      onClick={() => handleRemoveImage(index)}
+                      className="absolute top-2 right-2 bg-red-500 rounded-full p-1.5 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-200 hover:bg-red-600"
+                    >
+                      <XCircleIcon className="w-5 h-5" />
+                    </button>
+                  </div>
                 ))}
-              </select>
+                <label className="w-full h-32 flex flex-col items-center justify-center border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-indigo-500 transition-colors duration-200 group">
+                  <input
+                    type="file"
+                    onChange={handleImageFileChange}
+                    multiple
+                    accept="image/*"
+                    className="hidden"
+                  />
+                  <PhotoIcon className="w-10 h-10 text-gray-400 group-hover:text-indigo-500 transition-colors duration-200" />
+                  <span className="mt-2 text-sm text-gray-500 group-hover:text-indigo-500 transition-colors duration-200">Add Images</span>
+                </label>
+              </div>
             </div>
-          </div>
-          
-          <div className="space-y-4">
-            <label htmlFor="content" className="block text-sm font-semibold text-gray-700">Content</label>
-            <textarea
-              id="content"
-              name="content"
-              value={post.content}
-              onChange={handleChange}
-              required
-              rows={10}
-              className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200 ease-in-out"
-              placeholder="Write your post content here..."
-            ></textarea>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="space-y-4">
-              <label htmlFor="tags" className="block text-sm font-semibold text-gray-700">Tags</label>
-              <input
-                type="text"
-                id="tags"
-                name="tags"
-                value={post.tags}
-                onChange={handleChange}
-                className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200 ease-in-out"
-                placeholder="Enter tags, separated by commas"
-              />
-            </div>
-            <div className="space-y-4">
-              <label htmlFor="status" className="block text-sm font-semibold text-gray-700">Status</label>
-              <select
-                id="status"
-                name="status"
-                value={post.status}
-                onChange={handleChange}
-                className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200 ease-in-out"
+
+            <div className="flex justify-end">
+              <button
+                type="submit"
+                disabled={isUploading}
+                className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-full shadow-sm text-white bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 transition-all duration-200 transform hover:scale-105"
               >
-                <option value="draft">Draft</option>
-                <option value="published">Published</option>
-                <option value="hidden">Hidden</option>
-              </select>
+                {isUploading ? 'Uploading...' : 'Create Post'}
+              </button>
             </div>
-          </div>
-          
-          <div className="space-y-4">
-            <label htmlFor="imageFiles" className="block text-sm font-semibold text-gray-700">Upload Images</label>
-            <div className="flex items-center flex-wrap gap-4">
-              <label htmlFor="imageFiles" className="cursor-pointer">
-                <div className="w-32 h-32 bg-gray-100 rounded-lg flex flex-col items-center justify-center text-gray-400 hover:bg-gray-200 transition duration-200 ease-in-out border-2 border-dashed border-gray-300">
-                  <PhotoIcon className="w-10 h-10 mb-2" />
-                  <span className="text-sm">Add Image</span>
-                </div>
-              </label>
-              <input
-                type="file"
-                id="imageFiles"
-                name="imageFiles"
-                onChange={handleImageFileChange}
-                multiple
-                accept="image/*"
-                className="hidden"
-              />
-              {selectedImages.map((url, index) => (
-                <div key={index} className="relative group">
-                  <img src={url} alt={`Selected ${index + 1}`} className="w-32 h-32 object-cover rounded-lg" />
-                  <button
-                    type="button"
-                    onClick={() => handleRemoveImage(index)}
-                    className="absolute top-2 right-2 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition duration-200 ease-in-out"
-                  >
-                    <FaTimes size={12} />
-                  </button>
-                </div>
-              ))}
-            </div>
-          </div>
-          
-          <div className="flex justify-end pt-6">
-            <button
-              type="submit"
-              disabled={isUploading}
-              className="px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-700 text-white font-bold rounded-lg shadow-md hover:from-blue-700 hover:to-indigo-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition duration-200 ease-in-out disabled:opacity-50 text-lg"
-            >
-              {isUploading ? 'Uploading...' : 'Publish Post'}
-            </button>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
     </div>
   );
 };
-
 
 export default AddPost;

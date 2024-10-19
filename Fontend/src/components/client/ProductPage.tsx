@@ -9,7 +9,6 @@ interface Post {
   like_count: number;
   author: {
     name: string;
-    displayName: string;
   };
   date: string;
   topic: string;
@@ -230,7 +229,7 @@ const ProductPage = () => {
                   <div className="items-text">
                     <div className="text-lg font-semibold">{post.title}</div>
                     <div className="text-gray-600 author-name cursor-pointer">
-                      {post.author.displayName || post.author.name}
+                      {post.author.name}
                     </div>
                   </div>
                   <div className="items-like flex items-center space-x-1 text-gray-600">
