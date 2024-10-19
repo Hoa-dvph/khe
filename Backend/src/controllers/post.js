@@ -17,13 +17,13 @@ export const getAllPosts = async (req, res) => {
 // Lấy một bài viết theo ID
 export const getPostById = async (req, res) => {
     try {
-        const post = await Post.findById(req.params.id); // Lấy bài viết theo ID
+        const post = await Post.findById(req.params.id).populate("author").populate("topic"); // Lấy bài viết theo ID
 
         if (!post) {
             return res.status(404).json({ message: "Post not found" });
         }
 
-        res.status(200).json(post); // Trả về bài viết
+        res.status(200).json(post);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -92,16 +92,22 @@ export const addComment = async (req, res) => {
 // like status 
 export const likeStatus = async (req, res) => {
     try {
-        const { user } = req.body
+        const user = req.user
+        console.log("user", user);
+
+        console.log(user._id.toString());
+
         const post = await Post.findById(req.params.id);
         if (!post) {
             return res.status(404).json({ message: "Post not found" });
         }
-        if (post.like.includes(user)) {
-            post.like = post.like.filter(userId => userId !== user);
+        console.log(post);
+
+        if (post.like.includes(user._id)) {
+            post.like = post.like.filter(userId => userId.toString() !== user._id.toString());
             post.like_count -= 1;
         } else {
-            post.like.push(user);
+            post.like.push(user._id);
             post.like_count += 1;
         }
 
@@ -118,6 +124,7 @@ export const likeStatus = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 }
+
 
 
 //sort post

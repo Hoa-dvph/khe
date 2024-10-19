@@ -4,12 +4,11 @@ import User from "../models/user.js";
 import { StatusCodes } from "http-status-codes";
 export const createComment = async (req, res) => {
     try {
-        const { user, post, message } = req.body
-        const userCheck = await User.findById(user)
-        if (!userCheck) return res.status(400).json({ message: "User not found" })
+        const { post, message } = req.body
+        const user = req.user
         const postCheck = await Post.findById(post)
         if (!postCheck) return res.status(400).json({ message: "Post not found" })
-        const newComment = await Comment.create(req.body)
+        const newComment = await Comment.create({ ...req.body, author: user._id });
         res.status(StatusCodes.CREATED).json({ message: "Comment created successfully", data: newComment })
     } catch (error) {
         res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: error.message })

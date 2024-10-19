@@ -11,17 +11,52 @@ import { A11y, Navigation, Pagination, Scrollbar } from "swiper/modules";
 // Import Swiper styles
 import "swiper/css";
 import { GrLinkNext, GrLinkPrevious } from "react-icons/gr";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { MdOutlineMail } from "react-icons/md";
 import { IoShareOutline } from "react-icons/io5";
 import { AiFillLike } from "react-icons/ai";
 import Comment from "./Comment";
 import DetailPost from "./DetailPost";
 import { Tooltip } from "@mui/material";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import DialogCopy from "./DialogCopy";
 import { CiSaveDown2 } from "react-icons/ci";
+import { getByidPost, likePost } from "@/service/post";
+import { Post } from "@/types/post";
 const ProductDetailPage = () => {
+  const { id } = useParams();
+  const [post, setPost] = useState<Post>();
+  useEffect(() => {
+    (async () => {
+      try {
+        const { data } = await getByidPost(id as string);
+        setPost(data);
+        console.log(data);
+      } catch (error) {
+        console.error(error);
+      }
+    })();
+  }, [id]);
+
+  useEffect(() => {
+    (async () => {})();
+  }, []);
+
+  const handleLike = async (id: string) => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      alert("Bạn chưa đăng nhập");
+      return;
+    }
+
+    try {
+      const data = await likePost(id, token);
+      console.log("Like post thành công:", data);
+    } catch (error) {
+      console.error("Lỗi khi like post:", error);
+    }
+  };
   const images = [
     "https://picsum.photos/200",
     "https://picsum.photos/200",
@@ -43,18 +78,18 @@ const ProductDetailPage = () => {
       <div className="flex flex-col">
         <div className="flex gap-3">
           <img
-            src="https://picsum.photos/200"
+            src={post?.author?.avatar}
             alt=""
             className="rounded-full w-12 h-12"
           />
           <div className="flex flex-col">
-            <h2 className="text-base font-medium">Riot client</h2>
+            <h2 className="text-base font-medium">{post?.author?.email}</h2>
             <p className="text-gray-600 hover:text-blue-400">Flow</p>
           </div>
         </div>
         <div className="relative group pt-5">
           <img
-            src="https://picsum.photos/200"
+            src={post?.images[0] || "https://picsum.photos/200"}
             alt=""
             className="cursor-pointer w-full h-[500px] object-cover"
           />
@@ -63,8 +98,12 @@ const ProductDetailPage = () => {
             <span>Save</span>
           </div>
         </div>
-        <div className="bg-[#000622] px-52 py-24">
+        <div className="bg-[#000622] px-52 py-24 flex flex-col gap-4">
           <h2 className="text-white text-2xl font-medium">Description</h2>
+
+          <p className="text-gray-300 text-sm tracking-widest">
+            {post?.content}
+          </p>
           <p className="text-gray-300 text-sm tracking-widest">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sit
             amet enim vel ipsum tincidunt bibendum. Donec non egestas neque, vel
@@ -82,7 +121,7 @@ const ProductDetailPage = () => {
         </div>
         <div className="relative group">
           <img
-            src="https://picsum.photos/200"
+            src={post?.images[1] || "https://picsum.photos/200"}
             alt=""
             className="cursor-pointer w-full h-[500px] object-cover"
           />
@@ -145,7 +184,9 @@ const ProductDetailPage = () => {
               className="rounded-full w-12 h-12"
             />
             <div className="flex flex-col">
-              <h2 className="text-base font-medium text-white">Riot client</h2>
+              <h2 className="text-base font-medium text-white">
+                {post?.author.email}
+              </h2>
               <p className="text-gray-600 hover:text-blue-400">Flow</p>
             </div>
           </div>
@@ -203,13 +244,17 @@ const ProductDetailPage = () => {
         {/* Các icon */}
         <Link to={`/`} className="flex flex-col items-center">
           <img
-            src="https://picsum.photos/200"
+            src={post?.author?.avatar}
             alt=""
             className="p-2 rounded-full w-[60px] h-[60px]"
           />
           <h2 className="text-sm font-medium">Flow</h2>
         </Link>
-        <Tooltip title="Letter" placement="left-start" className="cursor-pointer">
+        <Tooltip
+          title="Letter"
+          placement="left-start"
+          className="cursor-pointer"
+        >
           <Link to={`/`} className="flex flex-col items-center">
             <div className="bg-white text-black p-2 rounded-full border border-gray-200">
               <MdOutlineMail className="" size={25} />
@@ -238,7 +283,10 @@ const ProductDetailPage = () => {
             <h2 className="text-sm font-medium">Save</h2>
           </div>
         </Tooltip>
-        <div className="flex flex-col items-center">
+        <div
+          className="flex flex-col items-center"
+          onClick={() => handleLike(id as string)}
+        >
           <div className="bg-blue-400 text-white p-2 rounded-full border border-gray-200">
             <AiFillLike className="" size={25} />
           </div>
