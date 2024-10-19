@@ -5,9 +5,13 @@ import LayoutCLient from "@/layout/LayoutCLient";
 import HomePage from "@/page/HomePage";
 import Profile from "@/components/client/Profile";
 import ProductDetailPage from "@/pages/client/product-detail/ProductDetailPage";
+import LayoutAdmin from "@/layout/LayoutAdmin";
+import NotFound from "@/page/NotFound";
+import PostList from "@/page/Post/list";
 import AddPost from "@/page/Post/add";
 import EditPost from "@/page/Post/edit";
-import PostList from "@/page/Post/list";
+import AdminDashboard from "@/layout/AdminDashBoard";
+
 const Router = () => {
   return (
     <BrowserRouter>
@@ -16,13 +20,17 @@ const Router = () => {
           <Route index element={<HomePage />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/product/:id" element={<ProductDetailPage />} />
-          <Route path="/posts/add" element={<AddPost />} />
-          <Route path="/posts/edit/:id" element={<EditPost />} />
-          <Route path="/posts" element={<PostList />} />
-
         </Route>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/admin" element={<LayoutAdmin />}>
+          <Route index element={<AdminDashboard />} />
+          <Route path="posts" element={<PostList />} />
+          <Route path="posts/add" element={<AddPost />} />
+          <Route path="posts/edit/:id" element={<EditPost />} />
+
+        </Route>
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   );

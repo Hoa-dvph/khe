@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import { FaPlus, FaEdit, FaTrash } from 'react-icons/fa';
+import { FaPlus, FaEdit, FaTrash, FaSort } from 'react-icons/fa';
 
 interface Post {
   _id: string;
@@ -28,6 +28,10 @@ const PostList: React.FC = () => {
   const [posts, setPosts] = useState<Post[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [filterStatus, setFilterStatus] = useState<Post['status'] | 'all'>('all');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [sortField, setSortField] = useState<keyof Post>('createdAt');
+  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc');
 
   useEffect(() => {
     fetchPosts();
@@ -59,6 +63,28 @@ const PostList: React.FC = () => {
     }
   };
 
+  const filteredPosts = posts
+    .filter(post => filterStatus === 'all' || post.status === filterStatus)
+    .filter(post => 
+      post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      post.content.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      post.author.name.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+    .sort((a, b) => {
+      if (a[sortField] < b[sortField]) return sortDirection === 'asc' ? -1 : 1;
+      if (a[sortField] > b[sortField]) return sortDirection === 'asc' ? 1 : -1;
+      return 0;
+    });
+
+  const handleSort = (field: keyof Post) => {
+    if (field === sortField) {
+      setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
+    } else {
+      setSortField(field);
+      setSortDirection('asc');
+    }
+  };
+
   const getStatusStyle = (status: Post['status']) => {
     switch (status) {
       case 'published':
@@ -86,18 +112,32 @@ const PostList: React.FC = () => {
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-4xl font-extrabold text-gray-900">Post List</h1>
           <Link
-            to="/posts/add"
+            to="/admin/posts/add"
             className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out flex items-center"
           >
-            <FaPlus  className="mr-2" /> Add New Post
+            <FaPlus className="mr-2" /> Add New Post
           </Link>
         </div>
 
-        {isLoading && (
-          <div className="flex justify-center items-center h-64">
-            <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-blue-500"></div>
-          </div>
-        )}
+        <div className="mb-6 flex flex-wrap gap-4">
+          <input
+            type="text"
+            placeholder="Search posts..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+          <select
+            value={filterStatus}
+            onChange={(e) => setFilterStatus(e.target.value as Post['status'] | 'all')}
+            className="px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="all">All Statuses</option>
+            <option value="draft">Draft</option>
+            <option value="published">Published</option>
+            <option value="hidden">Hidden</option>
+          </select>
+        </div>
 
         {error && (
           <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6" role="alert">
@@ -106,13 +146,13 @@ const PostList: React.FC = () => {
           </div>
         )}
 
-        {!isLoading && !error && posts.length === 0 && (
+        {!isLoading && !error && filteredPosts.length === 0 && (
           <div className="bg-white shadow-md rounded-lg p-8 text-center">
             <p className="text-gray-500 text-xl">No posts found.</p>
           </div>
         )}
 
-        {!isLoading && !error && posts.length > 0 && (
+        {!isLoading && !error && filteredPosts.length > 0 && (
           <div className="bg-white shadow-md rounded-lg overflow-hidden">
             <div className="overflow-x-auto">
               <table className="min-w-full divide-y divide-gray-200">
@@ -121,12 +161,17 @@ const PostList: React.FC = () => {
                     {["Image", "Title", "Content", "Author", "Topic", "Tags", "Likes", "Status", "Created At", "Actions"].map((header) => (
                       <th key={header} className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         {header}
+                        {['title', 'author', 'like_count', 'createdAt'].includes(header.toLowerCase()) && (
+                          <button onClick={() => handleSort(header.toLowerCase() as keyof Post)} className="ml-1">
+                            <FaSort className="inline" />
+                          </button>
+                        )}
                       </th>
                     ))}
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
-                  {posts.map((post) => (
+                  {filteredPosts.map((post) => (
                     <tr key={post._id} className="hover:bg-gray-50 transition duration-150 ease-in-out">
                       <td className="px-6 py-4 whitespace-nowrap">
                         <img src={post.images[0] || 'https://via.placeholder.com/80'} alt={post.title} className="h-20 w-20 object-cover rounded-md shadow-sm" />
@@ -157,7 +202,7 @@ const PostList: React.FC = () => {
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                         <div className="flex space-x-2">
-                          <Link to={`/posts/edit/${post._id}`} className="text-indigo-600 hover:text-indigo-900">
+                          <Link to={`/admin/posts/edit/${post._id}`} className="text-indigo-600 hover:text-indigo-900">
                             <FaEdit className="w-5 h-5" />
                           </Link>
                           <button
@@ -179,6 +224,5 @@ const PostList: React.FC = () => {
     </div>
   );
 };
-
 
 export default PostList;
