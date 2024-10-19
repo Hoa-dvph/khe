@@ -8,6 +8,7 @@ import bgImage from "../../images/login/bg.jpg"; // Ensure correct path
 
 interface FormData {
   email: string;
+  name: string;
   password: string;
   confirmPassword: string;
 }
@@ -85,6 +86,31 @@ const Register = () => {
             </div>
             {/* Email form */}
             <form onSubmit={handleSubmit(onSubmit)}>
+            <div className="mb-4">
+        <label htmlFor="name" className="block text-gray-700 mb-2">
+          Full Name
+        </label>
+        <input
+          type="text"
+          id="name"
+          placeholder="Full Name"
+          {...register("name", {
+            required: "Full Name is required",
+            minLength: {
+              value: 2,
+              message: "Full Name must be at least 2 characters long",
+            },
+          })}
+          className={`w-full p-3 border ${
+            errors.name ? "border-red-500" : "border-gray-300"
+          } rounded-md focus:ring-2 focus:ring-blue-500`}
+        />
+        {errors.name && (
+          <p className="text-red-500 text-sm mt-1">
+            {errors.name.message}
+          </p>
+        )}
+      </div>
               <div className="mb-4">
                 <label htmlFor="email" className="block text-gray-700 mb-2">
                   Sign up with email
