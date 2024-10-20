@@ -6,12 +6,14 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { MdOutlineMail } from "react-icons/md";
+import { Post } from "@/types/post";
 
 interface Props {
   open: boolean;
   handleClose: () => void;
+  post: Post | null;
 }
-const DialogCopy = ({ open, handleClose }: Props) => {
+const DialogCopy = ({ open, handleClose, post }: Props) => {
   const handleCopy = () => {
     const currentURL = window.location.href;
 
@@ -19,11 +21,9 @@ const DialogCopy = ({ open, handleClose }: Props) => {
       .writeText(currentURL)
       .then(() => {
         console.log("thành công");
-        
       })
       .catch(() => {
         console.log("thất bại");
-        
       });
   };
   return (
@@ -45,10 +45,11 @@ const DialogCopy = ({ open, handleClose }: Props) => {
         </DialogTitle>
         <DialogContent>
           <img
-            src="https://picsum.photos/200"
+            src={post?.images[0] || "https://picsum.photos/200"}
             alt=""
-            className="w-full px-7 rounded-lg"
+            className="w-full px-7 h-[300px] rounded-lg"
           />
+          <h4 className="text-center pt-3 font-semibold text-lg">{ post?.title}</h4>
           <DialogContentText id="alert-dialog-description">
             <div className="flex items-center justify-center py-3">
               <button

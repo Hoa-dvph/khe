@@ -3,19 +3,24 @@ import { GoPlusCircle } from "react-icons/go";
 import { MdOutlineMail } from "react-icons/md";
 import { FaMessage } from "react-icons/fa6";
 import { AiFillLike } from "react-icons/ai";
-const DetailPost = () => {
+import { Post } from "@/types/post";
+interface Props {
+  post: Post | null;
+}
+const DetailPost = ({ post }: Props) => {
+  console.log(post);
   return (
     <div className="col-span-2 flex flex-col gap-10">
       <div className="border border-gray-200 p-7 flex flex-col gap-4">
         <p className="font-medium text-gray-300 text-xs">OWNER</p>
         <div className="flex gap-3">
           <img
-            src="https://picsum.photos/200"
+            src={post?.author?.avatar}
             alt=""
             className="w-12 h-12 rounded-full"
           />
           <div className="flex flex-col">
-            <h2 className="font-semibold">Vân Hương</h2>
+            <h2 className="font-semibold">{post?.author?.email}</h2>
             <p className="text-sm text-gray-500 font-medium ">
               Thach That Ha Noi
             </p>
@@ -35,17 +40,13 @@ const DetailPost = () => {
         </button>
       </div>
       <div className="border border-gray-200 p-7 flex flex-col gap-4">
-        <h2 className="font-medium">Mi Nomina: Payroll Management</h2>
-        <p className="text-sm">
-          The Mi Nomina design project embodies an unwavering quest for
-          simplicity and efficiency in payroll management for businesses. Our
-          distinctive bra
-        </p>
+        <h2 className="font-medium">{post?.title}</h2>
+        <p className="text-sm">{post?.content}</p>
         <div className="flex items-center gap-1">
-          <p className="text-sm">20</p>
+          <p className="text-sm">{post?.like_count}</p>
           <AiFillLike />
-          <p className="text-sm">20</p>
-          <FaMessage />
+          {/* <p className="text-sm">20</p>
+          <FaMessage /> */}
         </div>
       </div>
     </div>

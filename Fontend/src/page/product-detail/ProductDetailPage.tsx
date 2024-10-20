@@ -23,40 +23,50 @@ import DialogCopy from "./DialogCopy";
 import { CiSaveDown2 } from "react-icons/ci";
 import { getByidPost, likePost } from "@/service/post";
 import { Post } from "@/types/post";
+import { useNavigate } from "react-router-dom";
+import { BiLike, BiSolidLike } from "react-icons/bi";
 const ProductDetailPage = () => {
   const { id } = useParams();
-  const [post, setPost] = useState<Post>();
+  const [post, setPost] = useState<Post | null>(null);
+  const user = localStorage.getItem("user");
+  const userObject = user ? JSON.parse(user) : null;
+  console.log(userObject);
+  const getPostById = async () => {
+    try {
+      const { data } = await getByidPost(id as string);
+      setPost(data);
+      console.log(data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
   useEffect(() => {
-    (async () => {
-      try {
-        const { data } = await getByidPost(id as string);
-        setPost(data);
-        console.log(data);
-      } catch (error) {
-        console.error(error);
-      }
-    })();
+    getPostById();
   }, [id]);
 
   useEffect(() => {
     (async () => {})();
   }, []);
+  const navigate = useNavigate();
 
   const handleLike = async (id: string) => {
     const token = localStorage.getItem("token");
 
     if (!token) {
       alert("Bạn chưa đăng nhập");
+      navigate(`/login`);
       return;
     }
 
     try {
       const data = await likePost(id, token);
       console.log("Like post thành công:", data);
+      getPostById();
     } catch (error) {
       console.error("Lỗi khi like post:", error);
     }
   };
+
   const images = [
     "https://picsum.photos/200",
     "https://picsum.photos/200",
@@ -236,8 +246,8 @@ const ProductDetailPage = () => {
           </div>
         </div>
         <div className="w-full grid grid-cols-6 px-[50px] py-[50px] border border-gray-200 gap-12">
-          <Comment />
-          <DetailPost />
+          <Comment userObject={userObject} id={id} />
+          <DetailPost post={post} />
         </div>
       </div>
       <div className="fixed top-[60%] right-2 transform -translate-y-1/2 flex flex-col items-center space-y-4 gap-7  p-2 ">
@@ -287,13 +297,24 @@ const ProductDetailPage = () => {
           className="flex flex-col items-center"
           onClick={() => handleLike(id as string)}
         >
-          <div className="bg-blue-400 text-white p-2 rounded-full border border-gray-200">
-            <AiFillLike className="" size={25} />
-          </div>
+          {userObject === null ? (
+            <div className="text-white p-2 rounded-full border border-gray-200 cursor-pointer">
+              <BiLike size={20} className="text-black" />
+            </div>
+          ) : post?.like?.includes(userObject?._id) ? (
+            <div className="text-white p-2 rounded-full border border-gray-200 cursor-pointer">
+              <BiSolidLike size={20} className="text-blue-400" />
+            </div>
+          ) : (
+            <div className="text-white p-2 rounded-full border border-gray-200 cursor-pointer">
+              <BiLike size={20} className="text-black" />
+            </div>
+          )}
+
           <h2 className="text-sm font-medium">Like</h2>
         </div>
       </div>
-      {open && <DialogCopy open={open} handleClose={handleClose} />}
+      {open && <DialogCopy open={open} handleClose={handleClose} post={post} />}
     </div>
   );
 };
