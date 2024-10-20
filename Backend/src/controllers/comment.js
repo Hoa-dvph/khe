@@ -4,13 +4,13 @@ import User from "../models/user.js";
 import { StatusCodes } from "http-status-codes";
 export const createComment = async (req, res) => {
     try {
-        const { user, post, message } = req.body
-        const userCheck = await User.findById(user)
-        if (!userCheck) return res.status(400).json({ message: "User not found" })
+        const { post, message } = req.body
+        const user = req.user
         const postCheck = await Post.findById(post)
         if (!postCheck) return res.status(400).json({ message: "Post not found" })
-        const newComment = await Comment.create(req.body)
-        res.status(StatusCodes.CREATED).json({ message: "Comment created successfully", data: newComment })
+        const newComment = await Comment.create({ ...req.body, author: user._id });
+        const populatedComment = await Comment.findById(newComment._id).populate('author');
+        res.status(StatusCodes.CREATED).json({ message: "Comment created successfully", data: populatedComment });
     } catch (error) {
         res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: error.message })
     }
@@ -18,13 +18,13 @@ export const createComment = async (req, res) => {
 
 export const getComment = async (req, res) => {
     try {
-        const { productId } = req.params;
-        const product = await Post.findById(productId);
-        if (!product) {
+        const { id } = req.params;
+        const post = await Post.findById(id).populate("author");
+        if (!post) {
             return res.status(StatusCodes.NOT_FOUND).json({ message: 'Product not found.' });
         }
-        const comments = await Comment.find({ post: productId });
-        return res.status(StatusCodes.OK).json(comments);
+        const comments = await Comment.find({ post: post }).populate("author");
+        return res.status(StatusCodes.OK).json({ message: "Lấy thành công", comments: comments });
     } catch (error) {
         res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: error.message })
     }

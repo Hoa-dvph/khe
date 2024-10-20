@@ -28,3 +28,12 @@ export interface Post {
   createdAt: string;
   updatedAt: string;
 }
+
+export type IComment = {
+  _id: string;
+  author: Author;
+  createdAt: string;
+  message: string;
+  post: string;
+  updatedAt: string;
+};

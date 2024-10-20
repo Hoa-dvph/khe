@@ -4,7 +4,7 @@ import Register from "../page/Register";
 import LayoutCLient from "@/layout/LayoutCLient";
 import HomePage from "@/page/HomePage";
 import Profile from "@/components/client/Profile";
-import ProductDetailPage from "@/pages/client/product-detail/ProductDetailPage";
+import ProductDetailPage from "@/page/product-detail/ProductDetailPage";
 import LayoutAdmin from "@/layout/LayoutAdmin";
 import NotFound from "@/page/NotFound";
 import PostList from "@/page/Post/list";
@@ -28,7 +28,6 @@ const Router = () => {
           <Route path="posts" element={<PostList />} />
           <Route path="posts/add" element={<AddPost />} />
           <Route path="posts/edit/:id" element={<EditPost />} />
-
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>
