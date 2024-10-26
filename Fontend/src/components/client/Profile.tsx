@@ -1,15 +1,20 @@
 import React from "react";
 import VectorArrowDown from "../../assets/images/Arrow down-circle.svg";
 import VectorAvatar from "../../assets/images/avata.png";
+import { Link } from "react-router-dom";
 
 const Profile = () => {
+  const user = localStorage.getItem("user");
+  const dataUser = user && JSON.parse(user);
+  console.log("🚀 ~ Profile ~ dataUser:", dataUser);
   const handleLogout = () => {
-    console.log("User logged out");
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    window.location.reload();
   };
 
   return (
     <div className="font-sans">
-      {/* Banner Section */}
       <section className="bg-gradient-to-r from-gray-600 to-gray-900 h-80 flex flex-col justify-center items-center text-white relative">
         <div className="flex flex-col items-center">
           <div className="w-20 h-20 border-2 border-white rounded-full flex justify-center items-center hover:bg-white hover:text-black transition duration-300">
@@ -30,10 +35,21 @@ const Profile = () => {
               className="w-full h-full object-cover"
             />
           </div>
-          <h2 className="text-3xl font-bold">Bằng Đỗ</h2>
-          <button className="w-full bg-blue-500 text-white py-3 rounded-lg shadow hover:bg-blue-600 transition duration-300">
-            Edit Profile Info
-          </button>
+          <h2 className="text-3xl font-bold">{dataUser?.name}</h2>
+          <Link to={`edit/${dataUser?._id}`} className="w-full">
+            <button className="w-full bg-blue-500 text-white py-3 rounded-lg shadow hover:bg-blue-600 transition duration-300">
+              Edit Profile Info
+            </button>
+          </Link>
+          <Link
+            to={`/profile/edit-password/${dataUser?._id}`}
+            className="w-full"
+          >
+            <button className="w-full bg-blue-500 text-white py-3 rounded-lg shadow hover:bg-blue-600 transition duration-300">
+              Edit Password
+            </button>
+          </Link>
+
           <button className="w-full bg-gray-100 text-gray-900 py-3 rounded-lg flex justify-between items-center shadow hover:bg-gray-200 transition duration-300">
             Customize Profile{" "}
             <span className="bg-blue-500 text-white py-1 px-3 rounded-lg">
@@ -41,13 +57,15 @@ const Profile = () => {
             </span>
           </button>
           <div className="w-full bg-white p-6 border border-gray-300 rounded-lg shadow-lg text-center">
-            <p className="font-semibold text-lg">Hire Bằng</p>
+            <p className="font-semibold text-lg">Hire {dataUser?.name}</p>
             <p className="text-sm text-gray-500 mt-2">
               Looking For Opportunities?
             </p>
-            <button className="mt-4 w-full bg-gray-200 py-2 rounded-lg hover:bg-gray-300 transition duration-300">
-              Edit Availability
-            </button>
+            <Link to={`edit/${dataUser?._id}`}>
+              <button className="mt-4 w-full bg-gray-200 py-2 rounded-lg hover:bg-gray-300 transition duration-300">
+                Edit Availability
+              </button>
+            </Link>
           </div>
 
           {/* Logout Button */}
