@@ -3,8 +3,13 @@ import Anh1 from "@/assets/anh2.png"
 import Anh2 from "@/assets/anh3.png";
 const Introduce = () => {
   return (
-    <div className="flex flex-col gap-7">
-      <div className="w-full py-10 px-32 flex gap-5 items-center justify-center">
+    <div className="flex flex-col gap-7 pb-10">
+      <div className="flex justify-start items-center gap-2 px-20">
+        <div className="border-b-2 w-[70px] border-black"></div>
+        <h3 className="lg:text-[30px] text-[16px] text-center font-bold">Giới thiệu</h3>
+        <div className="border-b-2 w-[70px] border-black"></div>
+      </div>
+      <div className="w-full pb-10 px-20 flex gap-5 items-center justify-center">
         <div className="flex flex-col gap-3 w-[60%]">
           <h5 className="font-medium text-[#a3a3a3]">GIỚI THIỆU</h5>
           <h3 className="text-3xl font-bold text-[#514d4d] tracking-normal pb-3">
@@ -35,7 +40,7 @@ const Introduce = () => {
           <img src={Anh2} alt="" />
         </div>
       </div>
-      <div className="w-full py-10 px-32 flex gap-5 items-center justify-center">
+      <div className="w-full py-10 px-20 flex gap-5 items-center justify-center bg-[#ecf6ff]">
         <div className="w-[40%]">
           <img src={Anh1} alt="" />
         </div>
