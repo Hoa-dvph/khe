@@ -8,6 +8,7 @@ import {
   toggleBlockUser,
   getUsers,
   promoteToAdmin,
+  changePassword,
 } from "../controllers/auth.js";
 import { checkAdmin, checkAuth } from "../middleware/checkAuth.js";
 
@@ -26,5 +27,6 @@ router.patch(
   toggleBlockUser
 );
 router.patch("/users/:userId/promote", checkAuth, checkAdmin, promoteToAdmin);
+router.put("/users/:userId/change-password", checkAuth, changePassword);
 
 export default router;
