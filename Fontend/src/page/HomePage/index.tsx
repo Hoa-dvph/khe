@@ -4,6 +4,7 @@ import ProductPage from "@/components/client/ProductPage";
 import Banner from "@/components/client/Banner";
 import ProductHomeSort from "@/page/sortPost/ProductHomeSort";
 import BannerV2 from "@/components/client/BannerV2";
+import Introduce from "@/components/client/Introduce";
 const HomePage: React.FC = () => {
   return (
     <div className="flex flex-col min-h-screen">
@@ -16,6 +17,9 @@ const HomePage: React.FC = () => {
       </div>
       <div className="pt-[20px] px-7">
         <ProductHomeSort />
+      </div>
+      <div className="">
+        <Introduce />
       </div>
       <CheckLogin />
     </div>
