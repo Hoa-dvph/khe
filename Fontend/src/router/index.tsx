@@ -11,6 +11,8 @@ import PostList from "@/page/Post/list";
 import AddPost from "@/page/Post/add";
 import EditPost from "@/page/Post/edit";
 import AdminDashboard from "@/layout/AdminDashBoard";
+import EditAuth from "@/components/client/EditAuth";
+import EditPassword from "@/components/client/EditPassword";
 
 const Router = () => {
   return (
@@ -20,6 +22,11 @@ const Router = () => {
           <Route index element={<HomePage />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/product/:id" element={<ProductDetailPage />} />
+          <Route path="/profile/edit/:userId" element={<EditAuth />} />
+          <Route
+            path="/profile/edit-password/:userId"
+            element={<EditPassword />}
+          />
         </Route>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />

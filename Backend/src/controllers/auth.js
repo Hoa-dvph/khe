@@ -1,8 +1,9 @@
 import bcryptjs from "bcryptjs";
-import { StatusCodes } from "http-status-codes";
 import Joi from "joi";
 import jwt from "jsonwebtoken";
 import User from "../models/user.js";
+import { StatusCodes } from "http-status-codes";
+import mongoose from "mongoose";
 
 const signupSchema = Joi.object({
   email: Joi.string().email().required().messages({
@@ -104,20 +105,33 @@ export const getAllUsers = async (req, res) => {
   }
 };
 
-//update user
 export const updateUser = async (req, res) => {
+  const { userId } = req.params;
+  const { email, name, avatar } = req.body;
+
   try {
-    const { userId } = req.params;
-    const updates = req.body;
-    const user = await User.findByIdAndUpdate(userId, updates, {
-      new: true,
-    }).select("-password");
-    res.status(StatusCodes.OK).json({ user });
+    // Find and update user by ID
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { email, name, avatar },
+      { new: true } // Return the updated document
+    );
+
+    if (!updatedUser) {
+      return res
+        .status(StatusCodes.NOT_FOUND)
+        .json({ error: "Người dùng không tồn tại" });
+    }
+
+    return res.status(StatusCodes.OK).json({
+      message: "Thông tin người dùng đã được cập nhật",
+      user: updatedUser,
+    });
   } catch (error) {
-    console.log(error);
-    res
-      .status(StatusCodes.INTERNAL_SERVER_ERROR)
-      .json({ error: "Đã xảy ra lỗi" });
+    console.error("Error updating user:", error);
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      error: "Đã xảy ra lỗi khi cập nhật thông tin người dùng",
+    });
   }
 };
 
@@ -189,15 +203,76 @@ export const promoteToAdmin = async (req, res) => {
   }
 };
 
-//Get user
 export const getUsers = async (req, res) => {
+  const { userId } = req.params; // Lấy userId từ params
+
   try {
+    // Nếu có userId, lấy thông tin chi tiết của người dùng đó
+    if (userId) {
+      const user = await User.findById(userId);
+      if (!user) {
+        return res
+          .status(StatusCodes.NOT_FOUND)
+          .json({ error: "Người dùng không tồn tại" });
+      }
+      return res.status(StatusCodes.OK).json({ user });
+    }
+
+    // Nếu không có userId, lấy danh sách tất cả người dùng
     const users = await User.find();
     res.status(StatusCodes.OK).json({ users });
   } catch (error) {
+    console.error("Error fetching users:", error); // Ghi log lỗi
     res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
-      .json({ error: "Lỗi lấy danh sách người dùng" });
+      .json({ error: "Lỗi trong quá trình lấy danh sách người dùng" });
+  }
+};
+
+export const changePassword = async (req, res) => {
+  const { userId } = req.params; // Lấy userId từ params
+  const { currentPassword, newPassword } = req.body; // Không cần lấy confirmNewPassword từ backend
+
+  // Kiểm tra các trường cần thiết
+  if (!currentPassword || !newPassword) {
+    return res.status(StatusCodes.BAD_REQUEST).json({
+      message: "Vui lòng điền đầy đủ các trường bắt buộc",
+    });
+  }
+
+  try {
+    // Tìm người dùng bằng userId
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(StatusCodes.NOT_FOUND).json({
+        message: "Người dùng không tồn tại",
+      });
+    }
+
+    // So sánh mật khẩu hiện tại với mật khẩu đã được mã hóa trong cơ sở dữ liệu
+    const isMatch = await bcryptjs.compare(currentPassword, user.password);
+    if (!isMatch) {
+      return res.status(StatusCodes.BAD_REQUEST).json({
+        message: "Mật khẩu hiện tại không chính xác",
+      });
+    }
+
+    // Mã hóa mật khẩu mới
+    const hashedNewPassword = await bcryptjs.hash(newPassword, 12);
+
+    // Cập nhật mật khẩu của người dùng
+    user.password = hashedNewPassword;
+    await user.save();
+
+    // Trả về thông báo thành công
+    return res.status(StatusCodes.OK).json({
+      message: "Mật khẩu đã được thay đổi thành công",
+    });
+  } catch (error) {
+    console.error("Error changing password:", error);
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      message: "Đã xảy ra lỗi khi thay đổi mật khẩu",
+    });
   }
 };
 

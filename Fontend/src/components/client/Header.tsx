@@ -14,6 +14,9 @@ import VectorAdobe from "../../assets/images/Adobe.svg";
 import { Link } from "react-router-dom";
 
 const Header: React.FC = () => {
+  const user = localStorage.getItem("user");
+  const name = user ? JSON.parse(user).name : "";
+
   const [exploreMenuAnchorEl, setExploreMenuAnchorEl] =
     React.useState<null | HTMLElement>(null);
   const [hireMenuAnchorEl, setHireMenuAnchorEl] =
@@ -121,17 +124,26 @@ const Header: React.FC = () => {
           />
         </IconButton>
 
+        {user ? (
+          <Link to={"/profile"} style={{ textDecoration: "none" }}>
+            xin chào : {name as string}
+          </Link>
+        ) : (
+          <div>
+            <Link to="/login" style={{ textDecoration: "none" }}>
+              <Button variant="outlined" sx={{ mr: 2 }}>
+                Sign In
+              </Button>
+            </Link>
+            <Link to="/register" style={{ textDecoration: "none" }}>
+              <Button variant="contained" color="primary">
+                Sign Up
+              </Button>
+            </Link>
+          </div>
+        )}
+
         {/* Sign In / Sign Up */}
-        <Link to="/login" style={{ textDecoration: "none" }}>
-          <Button variant="outlined" sx={{ mr: 2 }}>
-            Sign In
-          </Button>
-        </Link>
-        <Link to="/register" style={{ textDecoration: "none" }}>
-          <Button variant="contained" color="primary">
-            Sign Up
-          </Button>
-        </Link>
 
         {/* Adobe */}
         <IconButton edge="end" color="inherit" sx={{ ml: 2 }}>
