@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { FaChartBar, FaNewspaper, FaUsers, FaCog, FaSignOutAlt, FaBars } from 'react-icons/fa';
+import { MdTopic } from "react-icons/md";
 
 const LayoutAdmin: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -16,27 +17,53 @@ const LayoutAdmin: React.FC = () => {
   return (
     <div className="flex h-screen bg-gray-100">
       {/* Sidebar */}
-      <aside className={`bg-gray-800 text-white ${sidebarOpen ? 'w-64' : 'w-20'} transition-all duration-300 ease-in-out`}>
+      <aside
+        className={`bg-gray-800 text-white ${
+          sidebarOpen ? "w-64" : "w-20"
+        } transition-all duration-300 ease-in-out`}
+      >
         <div className="p-4 flex justify-between items-center">
           {sidebarOpen && <h1 className="text-2xl font-bold">Admin</h1>}
-          <button onClick={toggleSidebar} className="text-white focus:outline-none">
+          <button
+            onClick={toggleSidebar}
+            className="text-white focus:outline-none"
+          >
             <FaBars size={24} />
           </button>
         </div>
         <nav className="mt-8">
-          <Link to="/admin" className="flex items-center py-2 px-4 hover:bg-gray-700">
+          <Link
+            to="/admin"
+            className="flex items-center py-2 px-4 hover:bg-gray-700"
+          >
             <FaChartBar className="mr-3" />
             {sidebarOpen && <span>Dashboard</span>}
           </Link>
-          <Link to="/admin/posts" className="flex items-center py-2 px-4 hover:bg-gray-700">
+          <Link
+            to="/admin/posts"
+            className="flex items-center py-2 px-4 hover:bg-gray-700"
+          >
             <FaNewspaper className="mr-3" />
             {sidebarOpen && <span>Posts</span>}
           </Link>
-          <Link to="/admin/users" className="flex items-center py-2 px-4 hover:bg-gray-700">
+          <Link
+            to="/admin/users"
+            className="flex items-center py-2 px-4 hover:bg-gray-700"
+          >
             <FaUsers className="mr-3" />
             {sidebarOpen && <span>Users</span>}
           </Link>
-          <Link to="/admin/settings" className="flex items-center py-2 px-4 hover:bg-gray-700">
+          <Link
+            to="/admin/topic"
+            className="flex items-center py-2 px-4 hover:bg-gray-700"
+          >
+            <MdTopic className="mr-3" />
+            {sidebarOpen && <span>Topic</span>}
+          </Link>
+          <Link
+            to="/admin/settings"
+            className="flex items-center py-2 px-4 hover:bg-gray-700"
+          >
             <FaCog className="mr-3" />
             {sidebarOpen && <span>Settings</span>}
           </Link>
@@ -51,7 +78,7 @@ const LayoutAdmin: React.FC = () => {
             <h2 className="font-semibold text-xl text-gray-800">Admin Panel</h2>
             <div className="flex items-center">
               <span className="mr-4">Welcome, Admin</span>
-              <button 
+              <button
                 onClick={handleLogout}
                 className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded flex items-center"
               >

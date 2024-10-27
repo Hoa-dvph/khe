@@ -13,6 +13,9 @@ import EditPost from "@/page/Post/edit";
 import AdminDashboard from "@/layout/AdminDashBoard";
 import EditAuth from "@/components/client/EditAuth";
 import EditPassword from "@/components/client/EditPassword";
+import Topic from "@/page/topic/Topic";
+import AddTopic from "@/page/topic/AddTopic";
+import Edit from "@/page/topic/Edit";
 
 const Router = () => {
   return (
@@ -35,6 +38,9 @@ const Router = () => {
           <Route path="posts" element={<PostList />} />
           <Route path="posts/add" element={<AddPost />} />
           <Route path="posts/edit/:id" element={<EditPost />} />
+          <Route path="topic" element={<Topic />} />
+          <Route path="topic/add" element={<AddTopic />} />
+          <Route path="topic/edit/:id" element={<Edit />} />
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>
