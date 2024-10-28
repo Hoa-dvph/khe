@@ -9,7 +9,7 @@ import { useState, useEffect } from "react";
 import { getCommentByid } from "@/service/comment";
 import { IComment } from "@/types/post";
 import { addComment } from "@/service/comment";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 interface Props {
   userObject: any;
   id: string | undefined;
@@ -58,7 +58,7 @@ const Comment = ({ userObject, id }: Props) => {
     <div className="col-span-4 border border-gray-200">
       <div className="flex flex-col gap-3 p-7 border-b border-gray-200">
         {userObject === null ? (
-          <div>
+          <div className="flex flex-col gap-3 p-7 border-b border-gray-200">
             <h3 className="font-bold text-2xl">
               Sign up to join the conversation
             </h3>
@@ -67,12 +67,14 @@ const Comment = ({ userObject, id }: Props) => {
               signing in or signing up.
             </p>
             <div className="flex items-center gap-4">
-              <button className="rounded-full p-2 px-5 bg-blue-600 text-white">
-                Sign Up with Email
-              </button>
+              <Link to={`/login`}>
+                <button className="rounded-full p-2 px-5 bg-blue-600 text-white">
+                  Sign Up with Email
+                </button>
+              </Link>
               <p>or</p>
               <div className="cursor-pointer">
-                <FaFacebook size={27} />
+                <FaFacebook size={27} className="text-blue-500" />
               </div>
               <div className="cursor-pointer">
                 <FaGoogle size={27} />
