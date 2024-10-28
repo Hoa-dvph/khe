@@ -6,9 +6,11 @@ import { FaSave } from "react-icons/fa";
 import { useState } from "react";
 import InforUserHome from "./InforUserHome";
 import { FaFolderOpen } from "react-icons/fa";
+
 interface Props {
   post: Post;
 }
+
 const ProductPageSort = ({ post }: Props) => {
   const [showTooltip, setShowTooltip] = useState(false);
   return (
@@ -16,7 +18,6 @@ const ProductPageSort = ({ post }: Props) => {
       <div className="items mb-6 relative group">
         <div className="items-img bg-gray-200 h-56 rounded-sm overflow-hidden relative">
           <Link to={`/product/${post._id}`}>
-            {" "}
             <img
               src={post.images[0] || "./assets/images/image.png"}
               alt={post.title}
@@ -41,7 +42,7 @@ const ProductPageSort = ({ post }: Props) => {
               onMouseEnter={() => setShowTooltip(true)}
               onMouseLeave={() => setShowTooltip(false)}
             >
-              {post.author.email}
+              {post.author ? post.author.email : "Unknown Author"} {/* Updated line */}
             </div>
           </div>
           <div className="items-like flex items-center space-x-1 text-gray-600">
