@@ -15,6 +15,9 @@ import EditAuth from "@/components/client/EditAuth";
 import EditPassword from "@/components/client/EditPassword";
 import ContactList from "@/page/Contact/List";
 import ContactForm from "@/page/Contact";
+import AddTopic from "@/page/topic/AddTopic";
+import Topic from "@/page/topic/Topic";
+import Edit from "@/page/topic/Edit";
  
 
 const Router = () => {
@@ -41,6 +44,9 @@ const Router = () => {
           <Route path="posts/add" element={<AddPost />} />
           <Route path="posts/edit/:id" element={<EditPost />} />
           <Route path="contacts" element={<ContactList />} />
+          <Route path="topic" element={<Topic />} />
+          <Route path="topic/add" element={<AddTopic />} />
+          <Route path="topic/edit/:id" element={<Edit  />} />
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>
