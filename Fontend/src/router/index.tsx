@@ -35,6 +35,7 @@ const Router = () => {
           <Route path="posts" element={<PostList />} />
           <Route path="posts/add" element={<AddPost />} />
           <Route path="posts/edit/:id" element={<EditPost />} />
+          <Route path="contacts" element={<ContactList />} />
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>
