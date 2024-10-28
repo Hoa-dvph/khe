@@ -13,6 +13,9 @@ import EditPost from "@/page/Post/edit";
 import AdminDashboard from "@/layout/AdminDashBoard";
 import EditAuth from "@/components/client/EditAuth";
 import EditPassword from "@/components/client/EditPassword";
+import ContactList from "@/page/Contact/List";
+import ContactForm from "@/page/Contact";
+ 
 
 const Router = () => {
   return (
@@ -27,6 +30,8 @@ const Router = () => {
             path="/profile/edit-password/:userId"
             element={<EditPassword />}
           />
+          <Route path="/contact" element={<ContactForm />} />
+
         </Route>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
