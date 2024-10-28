@@ -11,7 +11,8 @@ import PostList from "@/page/Post/list";
 import AddPost from "@/page/Post/add";
 import EditPost from "@/page/Post/edit";
 import AdminDashboard from "@/layout/AdminDashBoard";
-
+import ContactForm from "@/page/Contact";
+import ContactList from "@/page/Contact/List";
 const Router = () => {
   return (
     <BrowserRouter>
@@ -20,6 +21,7 @@ const Router = () => {
           <Route index element={<HomePage />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/product/:id" element={<ProductDetailPage />} />
+          <Route path="/contact" element={<ContactForm />} />
         </Route>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
@@ -28,6 +30,7 @@ const Router = () => {
           <Route path="posts" element={<PostList />} />
           <Route path="posts/add" element={<AddPost />} />
           <Route path="posts/edit/:id" element={<EditPost />} />
+          <Route path="contacts" element={<ContactList />} />
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>

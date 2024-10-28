@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
-import { FaChartBar, FaNewspaper, FaUsers, FaCog, FaSignOutAlt, FaBars } from 'react-icons/fa';
+import { FaChartBar, FaNewspaper, FaUsers, FaCog, FaSignOutAlt, FaBars, FaEnvelope } from 'react-icons/fa';
 
 const LayoutAdmin: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -35,6 +35,10 @@ const LayoutAdmin: React.FC = () => {
           <Link to="/admin/users" className="flex items-center py-2 px-4 hover:bg-gray-700">
             <FaUsers className="mr-3" />
             {sidebarOpen && <span>Users</span>}
+          </Link>
+          <Link to="/admin/contacts" className="flex items-center py-2 px-4 hover:bg-gray-700">
+            <FaEnvelope className="mr-3" />
+            {sidebarOpen && <span>Contacts</span>}
           </Link>
           <Link to="/admin/settings" className="flex items-center py-2 px-4 hover:bg-gray-700">
             <FaCog className="mr-3" />
