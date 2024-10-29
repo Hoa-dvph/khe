@@ -69,6 +69,13 @@ export const signin = async (req, res) => {
     });
   }
 
+  // Kiểm tra trạng thái chặn
+  if (user.isBlocked) {
+    return res.status(StatusCodes.FORBIDDEN).json({
+      messages: ["Tài khoản của bạn đã bị chặn"],
+    });
+  }
+
   // So sánh mật khẩu
   const isMatch = await bcryptjs.compare(password, user.password);
   if (!isMatch) {
