@@ -18,7 +18,8 @@ import ContactForm from "@/page/Contact";
 import AddTopic from "@/page/topic/AddTopic";
 import Topic from "@/page/topic/Topic";
 import Edit from "@/page/topic/Edit";
- 
+import UserAdmin from "@/page/UserAdmin";
+import PrivateRoute from "./privateRouter";
 
 const Router = () => {
   return (
@@ -34,11 +35,17 @@ const Router = () => {
             element={<EditPassword />}
           />
           <Route path="/contact" element={<ContactForm />} />
-
         </Route>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/admin" element={<LayoutAdmin />}>
+        <Route
+          path="/admin"
+          element={
+            <PrivateRoute>
+              <LayoutAdmin />
+            </PrivateRoute>
+          }
+        >
           <Route index element={<AdminDashboard />} />
           <Route path="posts" element={<PostList />} />
           <Route path="posts/add" element={<AddPost />} />
@@ -46,7 +53,8 @@ const Router = () => {
           <Route path="contacts" element={<ContactList />} />
           <Route path="topic" element={<Topic />} />
           <Route path="topic/add" element={<AddTopic />} />
-          <Route path="topic/edit/:id" element={<Edit  />} />
+          <Route path="topic/edit/:id" element={<Edit />} />
+          <Route path="users" element={<UserAdmin />} />
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>

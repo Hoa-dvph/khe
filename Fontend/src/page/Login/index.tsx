@@ -32,7 +32,22 @@ const Login = () => {
 
       navigate("/");
     } catch (error) {
-      console.error("Error during login", error);
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.messages
+      ) {
+        // Get the first message from the 'messages' array in the response
+        const message = error.response.data.messages[0];
+        alert(message);
+      } else {
+        alert("An unexpected error occurred");
+      }
+      console.error("Error during login:", error);
+      console.log(
+        "🚀 ~ const onSubmit: SubmitHandler<FormData> = ~ error:",
+        error
+      );
     }
   };
 

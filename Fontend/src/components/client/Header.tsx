@@ -1,17 +1,16 @@
-import React from "react";
 import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import Button from "@mui/material/Button";
-import Avatar from "@mui/material/Avatar";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import React from "react";
 import { FaCaretDown } from "react-icons/fa";
-import VectorLogo from "../../assets/images/Vector.svg";
-import VectorNotifications from "../../assets/images/Notifications.svg";
-import VectorAdobe from "../../assets/images/Adobe.svg";
 import { Link } from "react-router-dom";
+import VectorAdobe from "../../assets/images/Adobe.svg";
+import VectorNotifications from "../../assets/images/Notifications.svg";
+import VectorLogo from "../../assets/images/Vector.svg";
 
 const Header: React.FC = () => {
   const user = localStorage.getItem("user");
