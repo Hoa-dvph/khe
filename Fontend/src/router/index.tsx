@@ -20,6 +20,7 @@ import Topic from "@/page/topic/Topic";
 import Edit from "@/page/topic/Edit";
 import UserAdmin from "@/page/UserAdmin";
 import PrivateRoute from "./privateRouter";
+import CreatePost from "@/components/client/CreateProject"
 
 const Router = () => {
   return (
@@ -28,6 +29,7 @@ const Router = () => {
         <Route path="/" element={<LayoutCLient />}>
           <Route index element={<HomePage />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/posts/create" element={<CreatePost/>} />
           <Route path="/product/:id" element={<ProductDetailPage />} />
           <Route path="/profile/edit/:userId" element={<EditAuth />} />
           <Route

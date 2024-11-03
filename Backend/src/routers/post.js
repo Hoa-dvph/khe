@@ -1,5 +1,5 @@
 import express from 'express';
-import { createPost, updatePost, deletePost, addComment, getAllPosts, getPostById, sortPosts, likeStatus } from '../controllers/post.js';
+import { createPost, updatePost, deletePost, addComment, getAllPosts, getPostById, sortPosts, likeStatus, getPostsByUserId } from '../controllers/post.js';
 import { checkAuth } from '../middleware/checkAuth.js';
 
 const router = express.Router();
@@ -18,5 +18,5 @@ router.route('/posts/:id')
 router.post('/posts/:id/comments', addComment);
 router.post('/posts/sortPorts', sortPosts)
 router.post(`/like/:id`, checkAuth, likeStatus)
-
+router.get('/posts/user/:userId', getPostsByUserId);
 export default router;

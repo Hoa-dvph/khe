@@ -10,12 +10,12 @@ interface Post {
   author: {
     _id: string;
     name: string;
-  };
+  } | null; // Allow author to be null
   tags: string[];
   status: 'draft' | 'published' | 'hidden';
   images: string[];
   like_count: number;
-  like: any[]; 
+  like: any[];
   topic: {
     _id: string;
     name: string;
@@ -55,7 +55,7 @@ const PostList: React.FC = () => {
     if (window.confirm('Are you sure you want to delete this post?')) {
       try {
         await axios.delete(`http://localhost:3000/api/posts/${id}`);
-        fetchPosts(); 
+        fetchPosts();
       } catch (error) {
         console.error('Error deleting post:', error);
         setError('Failed to delete post. Please try again.');
@@ -65,14 +65,16 @@ const PostList: React.FC = () => {
 
   const filteredPosts = posts
     .filter(post => filterStatus === 'all' || post.status === filterStatus)
-    .filter(post => 
+    .filter(post =>
       post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       post.content.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      post.author.name.toLowerCase().includes(searchTerm.toLowerCase())
+      (post.author?.name.toLowerCase().includes(searchTerm.toLowerCase()) || '')
     )
     .sort((a, b) => {
-      if (a[sortField] < b[sortField]) return sortDirection === 'asc' ? -1 : 1;
-      if (a[sortField] > b[sortField]) return sortDirection === 'asc' ? 1 : -1;
+      const aValue = a[sortField] ?? ''; // Use empty string if null
+      const bValue = b[sortField] ?? ''; // Use empty string if null
+      if (aValue < bValue) return sortDirection === 'asc' ? -1 : 1;
+      if (aValue > bValue) return sortDirection === 'asc' ? 1 : -1;
       return 0;
     });
 
@@ -180,7 +182,7 @@ const PostList: React.FC = () => {
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                         {post.content.length > 50 ? `${post.content.substring(0, 50)}...` : post.content}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{post.author.name}</td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{post.author?.name || 'Unknown Author'}</td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{post.topic.name}</td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="flex flex-wrap gap-1">

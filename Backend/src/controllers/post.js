@@ -156,5 +156,27 @@ export const sortPosts = async (req, res) => {
         res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ message: error.message });
     }
 }
+// Lấy tất cả bài viết của một người dùng theo ID
+export const getPostsByUserId = async (req, res) => {
+    try {
+        const { userId } = req.params;
 
+        // Validate userId
+        if (!userId) {
+            return res.status(400).json({ message: "User ID is required" });
+        }
 
+        const posts = await Post.find({ author: userId }) // Filter posts by author ID
+            .populate('author', 'name')
+            .populate('topic', 'name')
+            .sort({ createdAt: -1 });
+
+        if (!posts.length) {
+            return res.status(404).json({ message: "No posts found for this user" });
+        }
+
+        res.status(200).json(posts);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
