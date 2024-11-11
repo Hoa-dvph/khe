@@ -160,11 +160,11 @@ const CreatePost = () => {
     };
 
     return (
-        <Card sx={{ maxWidth: 800, mx: 'auto', p: 3, borderRadius: 2, boxShadow: 3, bgcolor: '#f9f9f9' }}>
-            <Typography variant="h4" gutterBottom sx={{ fontWeight: 'bold', color: '#333' }}>
+        <Card sx={{ maxWidth: 800, mx: 'auto', p: 3, borderRadius: 2, boxShadow: 3, bgcolor: '#ffffff' }}>
+            <Typography variant="h4" gutterBottom sx={{ fontWeight: 'bold', color: '#333', textAlign: 'center' }}>
                 Tạo bài viết
             </Typography>
-            <Typography variant="body1" color="textSecondary" gutterBottom>
+            <Typography variant="body1" color="textSecondary" gutterBottom sx={{ textAlign: 'center' }}>
                 {userName || 'Người dùng chưa đăng nhập'} {/* Fallback text if no name is found */}
             </Typography>
             <Divider sx={{ mb: 2 }} />
@@ -196,25 +196,30 @@ const CreatePost = () => {
                 
                 {/* Image Grid */}
                 <Grid item xs={12}>
-                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '15px', marginBottom: '15px' }}> {/* Increased gap */}
-                        {images.map((image, index) => (
-                            <div key={index} style={{ position: 'relative', width: '30%', transition: 'transform 0.2s' }}>
-                                <img 
-                                    src={image} 
-                                    alt={`Uploaded ${index}`} 
-                                    style={{ width: '100%', borderRadius: '8px', boxShadow: '0 4px 12px rgba(0,0,0,0.2)' }} // Enhanced shadow
-                                />
-                                <Button 
-                                    onClick={() => handleRemoveImage(index)} 
-                                    variant="contained" 
-                                    color="secondary" 
-                                    sx={{ position: 'absolute', top: 5, right: 5, bgcolor: '#ff4081', '&:hover': { bgcolor: '#f50057' } }} // Custom color
-                                >
-                                    X
-                                </Button>
-                            </div>
-                        ))}
-                    </div>
+                    <Box sx={{ border: '1px dashed #ccc', borderRadius: 1, p: 2, bgcolor: '#fafafa' }}>
+                        <Typography variant="body2" color="textSecondary" sx={{ mb: 2 }}>
+                            Thêm hình ảnh
+                        </Typography>
+                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '15px' }}> {/* Increased gap */}
+                            {images.map((image, index) => (
+                                <div key={index} style={{ position: 'relative', width: '30%', transition: 'transform 0.2s' }}>
+                                    <img 
+                                        src={image} 
+                                        alt={`Uploaded ${index}`} 
+                                        style={{ width: '100%', borderRadius: '8px', boxShadow: '0 4px 12px rgba(0,0,0,0.2)' }} // Enhanced shadow
+                                    />
+                                    <Button 
+                                        onClick={() => handleRemoveImage(index)} 
+                                        variant="contained" 
+                                        color="secondary" 
+                                        sx={{ position: 'absolute', top: 5, right: 5, bgcolor: '#ff4081', '&:hover': { bgcolor: '#f50057' } }} // Custom color
+                                    >
+                                        X
+                                    </Button>
+                                </div>
+                            ))}
+                        </div>
+                    </Box>
                 </Grid>
 
                 <Grid item xs={12}>

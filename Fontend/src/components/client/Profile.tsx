@@ -96,7 +96,12 @@ const Profile = () => {
                   </Grid>
                 ))
               ) : (
-                <Typography>No posts found.</Typography>
+                <Grid item xs={12}>
+                  <div className="border p-4 rounded-lg shadow-lg bg-white text-center">
+                    <Typography variant="h6" className="text-gray-500">You have no posts yet.</Typography>
+                    <Typography variant="body2" className="text-gray-400 mt-2">Start creating your first post!</Typography>
+                  </div>
+                </Grid>
               )}
               <Grid item xs={12} sm={6} md={4}>
                 <div className="border p-4 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300 bg-white flex flex-col justify-center items-center">
@@ -127,8 +132,8 @@ const Profile = () => {
               boxShadow: 3, 
               bgcolor: '#f9f9f9', 
               marginTop: 5,
-              overflowY: 'auto', // Thêm thuộc tính này để cho phép cuộn
-              maxHeight: '80vh' // Giới hạn chiều cao của modal
+              overflowY: 'auto', // Allow scrolling
+              maxHeight: '80vh' // Limit modal height
             }}>
               <CreatePost />
             </Box>
